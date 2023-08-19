@@ -1,7 +1,6 @@
 package com.e.javatest.response;
 
 import java.util.List;
-
 import lombok.Data;
 
 @Data

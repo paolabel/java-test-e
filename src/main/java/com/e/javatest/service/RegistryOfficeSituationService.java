@@ -1,6 +1,7 @@
 package com.e.javatest.service;
 
 import com.e.javatest.exception.DuplicateEntryException;
+import com.e.javatest.exception.InvalidIdForUpdateException;
 import com.e.javatest.model.RegistryOfficeSituation;
 import com.e.javatest.repository.RegistryOfficeSituationRepository;
 import java.util.Optional;
@@ -10,11 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
+// @Transactional(rollbackFor = {Exception.class, IllegalArgumentException.class})
 public class RegistryOfficeSituationService {
     @Autowired RegistryOfficeSituationRepository registryOfficeSituationRepository;
 
-    // @Transactional(rollbackFor = {Exception.class, IllegalArgumentException.class})
-    @Transactional
     public String createRegistryOfficeSituation(String id, String name)
             throws DuplicateEntryException {
         Optional<RegistryOfficeSituation> duplicateIdEntry =
@@ -31,5 +31,20 @@ public class RegistryOfficeSituationService {
         }
         registryOfficeSituationRepository.save(new RegistryOfficeSituation(id, name));
         return id;
+    }
+
+    // Criar caso para quando não há alteração?
+    public RegistryOfficeSituation updateRegistryOfficeSituation(String id, String name)
+            throws InvalidIdForUpdateException {
+        Optional<RegistryOfficeSituation> existingSituation =
+                registryOfficeSituationRepository.findById(id);
+        if (existingSituation.isEmpty()) {
+            throw new InvalidIdForUpdateException(
+                    "Situação de cartório com id '" + id + "' não pôde ser encontrado.");
+        }
+        RegistryOfficeSituation updatedSituation = existingSituation.get();
+        updatedSituation.setName(name);
+        registryOfficeSituationRepository.save(updatedSituation);
+        return updatedSituation;
     }
 }
