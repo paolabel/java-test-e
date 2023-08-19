@@ -1,12 +1,16 @@
 package com.e.javatest.model;
 
 import java.util.List;
+import java.util.Optional;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +18,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @EqualsAndHashCode
-@Entity(name = "Cartorios")
+@Entity
+@Table(name = "cartorios")
 public class RegistryOffice {
     @Id private int id;
 
@@ -28,14 +33,33 @@ public class RegistryOffice {
     @JoinColumn(name = "situacao", referencedColumnName = "id", nullable = false)
     private RegistryOfficeSituation situation;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "atribuicoes", nullable = false)
+    @ManyToMany
+    @JoinTable(
+            name = "relacao_cartorio_atribuicoes",
+            joinColumns = {
+                @JoinColumn(
+                        name = "cartorio_id",
+                        referencedColumnName = "id",
+                        table = "cartorios",
+                        nullable = false)
+            },
+            inverseJoinColumns = {
+                @JoinColumn(
+                        name = "atribuicao_id",
+                        referencedColumnName = "id",
+                        table = "atribuicoes_cartorio",
+                        nullable = false)
+            },
+            uniqueConstraints =
+                    @UniqueConstraint(
+                            name = "UNIQUE_cartorio_atribuicao",
+                            columnNames = {"cartorio_id", "atribuicao_id"}))
     private List<RegistryOfficeAttribution> attributions;
 
     public RegistryOffice(
             int id,
             String name,
-            String observation,
+            Optional<String> observation,
             RegistryOfficeSituation situation,
             List<RegistryOfficeAttribution> attributions) {
         if (id <= 0) {
@@ -47,7 +71,9 @@ public class RegistryOffice {
         }
         this.id = id;
         this.name = name;
-        this.observation = observation;
+        if (observation.isPresent()) {
+            this.observation = observation.get();
+        }
         this.situation = situation;
         this.attributions = attributions;
     }

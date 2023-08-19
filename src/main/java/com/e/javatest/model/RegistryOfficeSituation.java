@@ -3,6 +3,7 @@ package com.e.javatest.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +11,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @EqualsAndHashCode
-@Entity(name = "SituacoesDoCartorio")
+@Entity
+@Table(name = "situacoes_cartorio")
 public class RegistryOfficeSituation {
     @Id
     @Column(length = 20)
