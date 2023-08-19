@@ -1,5 +1,6 @@
 package com.e.javatest.model;
 
+import java.util.Optional;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -24,14 +25,11 @@ public class RegistryOfficeAttribution {
     @Column(name = "situacao", nullable = false)
     private Boolean situation = true;
 
-    public RegistryOfficeAttribution(String id, String name) {
+    public RegistryOfficeAttribution(String id, String name, Optional<Boolean> situation) {
         this.id = id;
         this.name = name;
-    }
-
-    public RegistryOfficeAttribution(String id, String name, Boolean situation) {
-        this.id = id;
-        this.name = name;
-        this.situation = situation;
+        if (situation.isPresent()) {
+            this.situation = situation.get();
+        }
     }
 }
