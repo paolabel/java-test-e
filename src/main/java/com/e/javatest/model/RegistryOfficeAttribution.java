@@ -5,13 +5,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
-@EqualsAndHashCode
+import lombok.Data;
+
+@Data
 @Entity
 @Table(name = "atribuicoes_cartorio")
 public class RegistryOfficeAttribution {

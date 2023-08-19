@@ -11,19 +11,16 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
-@EqualsAndHashCode
+import lombok.Data;
+
 @Entity
+@Data
 @Table(name = "cartorios")
 public class RegistryOffice {
     @Id private int id;
 
-    @Column(name = "nome", nullable = false, length = 50)
+    @Column(name = "nome", nullable = false, length = 150)
     private String name;
 
     @Column(name = "observacao", nullable = true, length = 250)

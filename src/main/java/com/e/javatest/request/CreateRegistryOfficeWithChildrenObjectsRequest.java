@@ -1,12 +1,36 @@
 package com.e.javatest.request;
 
 import java.util.List;
+import java.util.Optional;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Data;
 
 @Data
 public class CreateRegistryOfficeWithChildrenObjectsRequest {
+    @NotEmpty(message = "ID do cartório não pode estar vazio")
+    @Min(1)
     final int id;
+
+    @NotEmpty(message = "Nome do cartório não pode estar vazio")
+    @Size(max = 150, message = "Nome do registro deve ter até 150 caracteres")
+    @JsonProperty("nome")
     final String name;
+
+    @Size(max = 250, message = "Observação do registro deve ter até 250 caracteres")
+    @JsonProperty("observacao")
+    final Optional<String> observation;
+
+    @NotEmpty(message = "Situação do cartório a ser criada não pode estar vazia")
+    @JsonProperty("situacao")
     final CreateRegistryOfficeSituationRequest situation;
+
+    @NotEmpty(message = "Lista de atribuições do cartório a serem criadas não pode estar vazia")
+    @Size(min = 1)
+    @JsonProperty("atribuicoes")
     final List<CreateRegistryOfficeAttributionRequest> attributionList;
 }
