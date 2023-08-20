@@ -1,5 +1,7 @@
 package com.e.javatest.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +31,7 @@ public class RegistryOffice {
 
     @Column(name = "observacao", nullable = true, length = 250)
     @JsonProperty("observacao")
+    @JsonInclude(Include.NON_NULL)
     private String observation;
 
     @OneToOne(optional = false)
@@ -78,13 +81,5 @@ public class RegistryOffice {
         }
         this.state = state;
         this.assignments = assignments;
-    }
-
-    public Optional<String> getObservation() {
-        if (this.observation.equals(null)) {
-            return Optional.empty();
-        } else {
-            return Optional.of(this.observation);
-        }
     }
 }

@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -36,7 +35,8 @@ public class RestExceptionHandler {
                 DuplicateEntryException.class,
                 InvalidIdException.class,
                 EntryStillBeingUsedException.class,
-                NoFieldToUpdateException.class
+                NoFieldToUpdateException.class,
+                ConstraintViolationException.class
             })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected ErrorResponse handleSimpleBadRequestExceptions(Exception ex, WebRequest request) {
@@ -50,13 +50,5 @@ public class RestExceptionHandler {
             EntryNotFoundException ex, WebRequest request) {
         ErrorResponse errorMessage = new ErrorResponse(ex);
         return errorMessage;
-    }
-
-    // temp
-    @ExceptionHandler(value = {ConstraintViolationException.class})
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    ResponseEntity<String> handleConstraintViolationException(ConstraintViolationException e) {
-        return new ResponseEntity<>(
-                "not valid due to validation error: " + e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }

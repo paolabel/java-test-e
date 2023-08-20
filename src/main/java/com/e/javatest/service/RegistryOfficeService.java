@@ -7,16 +7,23 @@ import com.e.javatest.exception.NoFieldToUpdateException;
 import com.e.javatest.model.RegistryOffice;
 import com.e.javatest.model.RegistryOfficeAssignment;
 import com.e.javatest.model.RegistryOfficeState;
+import com.e.javatest.repository.IdAndNameOnly;
 import com.e.javatest.repository.RegistryOfficeRepository;
 import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 
 @Service
 @Transactional
 public class RegistryOfficeService {
+
+    private static final int PAGE_SIZE = 10;
 
     @Autowired RegistryOfficeRepository repository;
 
@@ -107,5 +114,10 @@ public class RegistryOfficeService {
                     "Cartório com id '" + id + "' não pôde ser encontrado.");
         }
         return registryOffice.get();
+    }
+
+    public List<IdAndNameOnly> listAllRegistryOfficeIdAndName(int page) {
+        Pageable pageable = PageRequest.of((page - 1), PAGE_SIZE, Sort.by(Order.asc("id")));
+        return repository.findAllProjectedBy(pageable);
     }
 }
