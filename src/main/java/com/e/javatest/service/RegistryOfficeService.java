@@ -1,6 +1,8 @@
 package com.e.javatest.service;
 
 import com.e.javatest.exception.DuplicateEntryException;
+import com.e.javatest.exception.InvalidIdException;
+import com.e.javatest.exception.NoFieldToUpdateException;
 import com.e.javatest.model.RegistryOffice;
 import com.e.javatest.model.RegistryOfficeAssignment;
 import com.e.javatest.model.RegistryOfficeState;
@@ -47,5 +49,43 @@ public class RegistryOfficeService {
         return repository.save(
                 new RegistryOffice(
                         id, name, observation, registryOfficeState, registryOfficeAssignmentList));
+    }
+
+    public RegistryOffice updateRegistryOffice(
+            int id,
+            Optional<String> newName,
+            Optional<String> newObservation,
+            Optional<RegistryOfficeState> newState,
+            Optional<List<RegistryOfficeAssignment>> newAssignmentList)
+            throws InvalidIdException, NoFieldToUpdateException {
+        Optional<RegistryOffice> existingRegistryOffice = repository.findById(id);
+        if (existingRegistryOffice.isEmpty()) {
+            throw new InvalidIdException(
+                    "Cartório com id '" + id + "' não existe no banco de dados.");
+        }
+        RegistryOffice updatedRegistryOffice = existingRegistryOffice.get();
+        boolean wasUpdated = false;
+        if (newName.isPresent()) {
+            updatedRegistryOffice.setName(newName.get());
+            wasUpdated = true;
+        }
+        if (newObservation.isPresent()) {
+            updatedRegistryOffice.setObservation(newObservation.get());
+            wasUpdated = true;
+        }
+        if (newState.isPresent()) {
+            updatedRegistryOffice.setState(newState.get());
+            wasUpdated = true;
+        }
+        if (newAssignmentList.isPresent()) {
+            updatedRegistryOffice.setAssignments(newAssignmentList.get());
+            wasUpdated = true;
+        }
+        if (!wasUpdated) {
+            throw new NoFieldToUpdateException(
+                    "Registro não pôde ser atualizado pois não foram enviados campos para"
+                            + " alterar.");
+        }
+        return repository.save(updatedRegistryOffice);
     }
 }

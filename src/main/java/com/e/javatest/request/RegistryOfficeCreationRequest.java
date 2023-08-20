@@ -22,7 +22,11 @@ public class RegistryOfficeCreationRequest {
 
     @JsonProperty("observacao")
     private final Optional<
-                    @Size(max = 250, message = "Observação do registro deve ter até 250 caracteres")
+                    @Size(
+                            max = 250,
+                            message =
+                                    "Novo valor para observação do registro deve ter até 250"
+                                            + " caracteres")
                     String>
             observation;
 
