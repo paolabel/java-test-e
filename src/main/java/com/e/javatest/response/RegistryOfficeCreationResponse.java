@@ -6,13 +6,10 @@ import lombok.Data;
 
 @Data
 public class RegistryOfficeCreationResponse {
-    @JsonProperty("message")
+    @JsonProperty("mensagem")
     private final String message;
 
-    @JsonProperty("status")
-    private final int statusCode = 201;
-
-    @JsonProperty("data")
+    @JsonProperty("dados")
     private final RegistryOffice data;
 
     public RegistryOfficeCreationResponse(RegistryOffice newRegistryOffice) {

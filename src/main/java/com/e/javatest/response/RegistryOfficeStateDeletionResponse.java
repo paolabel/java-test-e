@@ -1,11 +1,12 @@
 package com.e.javatest.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
 public class RegistryOfficeStateDeletionResponse {
-    private final String message;
-    private final int statusCode = 200;
+    @JsonProperty("mensagem")
+    private String message;
 
     public RegistryOfficeStateDeletionResponse(String id) {
         this.message = "A situação de cartório com id '" + id + "' foi deletada com sucesso.";
