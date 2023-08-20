@@ -12,4 +12,6 @@ public interface RegistryOfficeRepository extends JpaRepository<RegistryOffice, 
 
     @Transactional(readOnly = true)
     List<RegistryOffice> findByState_Id(String stateId);
+
+    List<RegistryOffice> findByAssignments_Id(String id);
 }

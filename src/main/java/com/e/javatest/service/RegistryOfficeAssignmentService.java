@@ -67,4 +67,14 @@ public class RegistryOfficeAssignmentService {
         }
         return repository.save(updatedAssignment);
     }
+
+    public String deleteRegistryOfficeAssignment(String id) throws InvalidIdForUpdateException {
+        Optional<RegistryOfficeAssignment> existingAssignment = repository.findById(id);
+        if (existingAssignment.isEmpty()) {
+            throw new InvalidIdForUpdateException(
+                    "Situação de cartório com id '" + id + "' não pôde ser encontrada.");
+        }
+        repository.deleteById(id);
+        return id;
+    }
 }

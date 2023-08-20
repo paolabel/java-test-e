@@ -17,4 +17,9 @@ public class RegistryOfficeService {
         List<RegistryOffice> list = repository.findByState_Id(stateId);
         return !list.isEmpty();
     }
+
+    public boolean checkifAnyRegistryOfficeContainsAssignment(String assignmentId) {
+        List<RegistryOffice> list = repository.findByAssignments_Id(assignmentId);
+        return !list.isEmpty();
+    }
 }
