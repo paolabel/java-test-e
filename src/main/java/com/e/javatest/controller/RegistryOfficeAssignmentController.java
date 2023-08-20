@@ -6,12 +6,12 @@ import com.e.javatest.exception.EntryStillBeingUsedException;
 import com.e.javatest.exception.InvalidIdException;
 import com.e.javatest.exception.NoFieldToUpdateException;
 import com.e.javatest.model.RegistryOfficeAssignment;
-import com.e.javatest.request.AssignmentAlterationRequest;
 import com.e.javatest.request.AssignmentCreationRequest;
-import com.e.javatest.response.AssignmentAlterationResponse;
+import com.e.javatest.request.AssignmentUpdateRequest;
 import com.e.javatest.response.AssignmentCreationResponse;
 import com.e.javatest.response.AssignmentDeletionResponse;
 import com.e.javatest.response.AssignmentLookupResponse;
+import com.e.javatest.response.AssignmentUpdateResponse;
 import com.e.javatest.service.RegistryOfficeAssignmentService;
 import com.e.javatest.service.RegistryOfficeService;
 import javax.validation.Valid;
@@ -47,13 +47,13 @@ public class RegistryOfficeAssignmentController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public AssignmentAlterationResponse updateRegistryOfficeAssignment(
-            @PathVariable String id, @RequestBody @Valid AssignmentAlterationRequest request)
+    public AssignmentUpdateResponse updateRegistryOfficeAssignment(
+            @PathVariable String id, @RequestBody @Valid AssignmentUpdateRequest request)
             throws InvalidIdException, NoFieldToUpdateException {
         RegistryOfficeAssignment updatedAssignment =
                 registryOfficeAssignmentService.updateRegistryOfficeAssignment(
                         id, request.getName(), request.getState());
-        return new AssignmentAlterationResponse(updatedAssignment);
+        return new AssignmentUpdateResponse(updatedAssignment);
     }
 
     @DeleteMapping("/{id}")

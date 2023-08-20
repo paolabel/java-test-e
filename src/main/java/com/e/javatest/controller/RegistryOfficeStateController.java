@@ -5,12 +5,12 @@ import com.e.javatest.exception.EntryNotFoundException;
 import com.e.javatest.exception.EntryStillBeingUsedException;
 import com.e.javatest.exception.InvalidIdException;
 import com.e.javatest.model.RegistryOfficeState;
-import com.e.javatest.request.StateAlterationRequest;
 import com.e.javatest.request.StateCreationRequest;
-import com.e.javatest.response.StateAlterationResponse;
+import com.e.javatest.request.StateUpdateRequest;
 import com.e.javatest.response.StateCreationResponse;
 import com.e.javatest.response.StateDeletionResponse;
 import com.e.javatest.response.StateLookupResponse;
+import com.e.javatest.response.StateUpdateResponse;
 import com.e.javatest.service.RegistryOfficeService;
 import com.e.javatest.service.RegistryOfficeStateService;
 import java.util.Optional;
@@ -46,12 +46,12 @@ public class RegistryOfficeStateController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public StateAlterationResponse updateRegistryOfficeState(
-            @PathVariable String id, @RequestBody @Valid StateAlterationRequest request)
+    public StateUpdateResponse updateRegistryOfficeState(
+            @PathVariable String id, @RequestBody @Valid StateUpdateRequest request)
             throws InvalidIdException {
         RegistryOfficeState updatedState =
                 registryOfficeStateService.updateRegistryOfficeState(id, request.getName());
-        return new StateAlterationResponse(updatedState);
+        return new StateUpdateResponse(updatedState);
     }
 
     @DeleteMapping("/{id}")
