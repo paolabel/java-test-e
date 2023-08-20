@@ -5,11 +5,11 @@ import com.e.javatest.exception.EntryNotFoundException;
 import com.e.javatest.exception.InvalidIdForUpdateException;
 import com.e.javatest.exception.NoFieldToUpdateException;
 import com.e.javatest.model.RegistryOfficeAssignment;
-import com.e.javatest.request.AlterRegistryOfficeAssignmentRequest;
-import com.e.javatest.request.CreateRegistryOfficeAssignmentRequest;
-import com.e.javatest.response.RegistryOfficeAssignmentAlterationResponse;
-import com.e.javatest.response.RegistryOfficeAssignmentCreationResponse;
-import com.e.javatest.response.RegistryOfficeAssignmentLookupResponse;
+import com.e.javatest.request.AssignmentAlterationRequest;
+import com.e.javatest.request.AssignmentCreationRequest;
+import com.e.javatest.response.AssignmentAlterationResponse;
+import com.e.javatest.response.AssignmentCreationResponse;
+import com.e.javatest.response.AssignmentLookupResponse;
 import com.e.javatest.service.RegistryOfficeAssignmentService;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,33 +32,31 @@ public class RegistryOfficeAssignmentController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public RegistryOfficeAssignmentCreationResponse createRegistryOfficeState(
-            @RequestBody @Valid CreateRegistryOfficeAssignmentRequest request)
-            throws DuplicateEntryException {
+    public AssignmentCreationResponse createRegistryOfficeState(
+            @RequestBody @Valid AssignmentCreationRequest request) throws DuplicateEntryException {
         RegistryOfficeAssignment newRegistryOfficeAssignment =
                 registryOfficeAssignmentService.createRegistryOfficeAssignment(
                         request.getId(), request.getName(), request.getState());
-        return new RegistryOfficeAssignmentCreationResponse(newRegistryOfficeAssignment);
+        return new AssignmentCreationResponse(newRegistryOfficeAssignment);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public RegistryOfficeAssignmentAlterationResponse updateRegistryOfficeAssignment(
-            @PathVariable String id,
-            @RequestBody @Valid AlterRegistryOfficeAssignmentRequest request)
+    public AssignmentAlterationResponse updateRegistryOfficeAssignment(
+            @PathVariable String id, @RequestBody @Valid AssignmentAlterationRequest request)
             throws InvalidIdForUpdateException, NoFieldToUpdateException {
         RegistryOfficeAssignment updatedAssignment =
                 registryOfficeAssignmentService.updateRegistryOfficeAssignment(
                         id, request.getName(), request.getState());
-        return new RegistryOfficeAssignmentAlterationResponse(updatedAssignment);
+        return new AssignmentAlterationResponse(updatedAssignment);
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public RegistryOfficeAssignmentLookupResponse getRegistryOfficeAssignment(
-            @PathVariable String id) throws EntryNotFoundException {
+    public AssignmentLookupResponse getRegistryOfficeAssignment(@PathVariable String id)
+            throws EntryNotFoundException {
         RegistryOfficeAssignment assignment =
                 registryOfficeAssignmentService.getRegistryOfficeAssignment(id);
-        return new RegistryOfficeAssignmentLookupResponse(assignment);
+        return new AssignmentLookupResponse(assignment);
     }
 }

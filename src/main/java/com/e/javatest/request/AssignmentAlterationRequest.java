@@ -6,7 +6,7 @@ import javax.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class AlterRegistryOfficeAssignmentRequest {
+public class AssignmentAlterationRequest {
 
     private static final String MIN_NAME_SIZE_MESSAGE =
             "Novo valor para o nome do registro não pode ser vazio";

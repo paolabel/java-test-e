@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class AlterRegistryOfficeStateRequest {
+public class StateAlterationRequest {
 
     @NotEmpty(message = "Novo valor para o nome do registro não pode estar vazio")
     @Size(max = 50, message = "Novo valor para o nome do registro deve ter até 50 caracteres")

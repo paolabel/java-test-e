@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class CreateRegistryOfficeWithChildrenIdsRequest {
+public class RegistryOfficeCreationWithIdsRequest {
     @NotEmpty(message = "ID do registro não pode estar vazio")
     @Min(0)
     private final int id;

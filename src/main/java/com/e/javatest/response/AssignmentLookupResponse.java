@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class RegistryOfficeAssignmentLookupResponse {
+public class AssignmentLookupResponse {
     @JsonProperty("id")
     private final String id;
 
@@ -15,7 +15,7 @@ public class RegistryOfficeAssignmentLookupResponse {
     @JsonProperty("situacao")
     private final boolean state;
 
-    public RegistryOfficeAssignmentLookupResponse(RegistryOfficeAssignment assignment) {
+    public AssignmentLookupResponse(RegistryOfficeAssignment assignment) {
         this.id = assignment.getId();
         this.name = assignment.getName();
         this.state = assignment.getState();

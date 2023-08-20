@@ -7,7 +7,7 @@ import javax.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class AlterRegistryOfficeRequest {
+public class RegistryOfficeAlterationRequest {
 
     @Size(max = 150, message = "Novo valor para o nome do registro deve ter até 150 caracteres")
     @JsonProperty("nome")

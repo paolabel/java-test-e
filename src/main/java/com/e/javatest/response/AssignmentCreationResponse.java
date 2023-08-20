@@ -2,19 +2,21 @@ package com.e.javatest.response;
 
 import com.e.javatest.model.RegistryOfficeAssignment;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 
-public class RegistryOfficeAssignmentAlterationResponse {
+@Data
+public class AssignmentCreationResponse {
     @JsonProperty("mensagem")
     private final String message;
 
     @JsonProperty("dados")
     private final RegistryOfficeAssignment data;
 
-    public RegistryOfficeAssignmentAlterationResponse(RegistryOfficeAssignment updatedAssignment) {
+    public AssignmentCreationResponse(RegistryOfficeAssignment newRegistryOfficeAssignment) {
         this.message =
                 "A atribuição de cartório com id '"
-                        + updatedAssignment.getId()
-                        + "' foi alterada com sucesso.";
-        this.data = updatedAssignment;
+                        + newRegistryOfficeAssignment.getId()
+                        + "' foi cadastrada com sucesso.";
+        this.data = newRegistryOfficeAssignment;
     }
 }

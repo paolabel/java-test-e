@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class CreateRegistryOfficeWithChildrenObjectsRequest {
+public class RegistryOfficeCreationWithObjectsRequest {
     @NotEmpty(message = "ID do cartório não pode estar vazio")
     @Min(1)
     private final int id;
@@ -25,10 +25,10 @@ public class CreateRegistryOfficeWithChildrenObjectsRequest {
 
     @NotEmpty(message = "Situação do cartório a ser criada não pode estar vazia")
     @JsonProperty("situacao")
-    private final CreateRegistryOfficeStateRequest state;
+    private final StateCreationRequest state;
 
     @NotEmpty(message = "Lista de atribuições do cartório a serem criadas não pode estar vazia")
     @Size(min = 1)
     @JsonProperty("atribuicoes")
-    private final List<CreateRegistryOfficeAssignmentRequest> assignmentList;
+    private final List<AssignmentCreationRequest> assignmentList;
 }

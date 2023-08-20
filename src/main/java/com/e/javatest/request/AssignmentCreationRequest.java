@@ -7,7 +7,7 @@ import javax.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class CreateRegistryOfficeAssignmentRequest {
+public class AssignmentCreationRequest {
     @NotEmpty(message = "ID do registro não pode estar vazio")
     @Size(max = 20, message = "ID do registro deve ter até 20 caracteres")
     private final String id;

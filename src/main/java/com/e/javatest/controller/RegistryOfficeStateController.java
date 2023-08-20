@@ -5,12 +5,12 @@ import com.e.javatest.exception.EntryNotFoundException;
 import com.e.javatest.exception.EntryStillBeingUsedException;
 import com.e.javatest.exception.InvalidIdForUpdateException;
 import com.e.javatest.model.RegistryOfficeState;
-import com.e.javatest.request.AlterRegistryOfficeStateRequest;
-import com.e.javatest.request.CreateRegistryOfficeStateRequest;
-import com.e.javatest.response.RegistryOfficeStateAlterationResponse;
-import com.e.javatest.response.RegistryOfficeStateCreationResponse;
-import com.e.javatest.response.RegistryOfficeStateDeletionResponse;
-import com.e.javatest.response.RegistryOfficeStateLookupResponse;
+import com.e.javatest.request.StateAlterationRequest;
+import com.e.javatest.request.StateCreationRequest;
+import com.e.javatest.response.StateAlterationResponse;
+import com.e.javatest.response.StateCreationResponse;
+import com.e.javatest.response.StateDeletionResponse;
+import com.e.javatest.response.StateLookupResponse;
 import com.e.javatest.service.RegistryOfficeService;
 import com.e.javatest.service.RegistryOfficeStateService;
 import javax.validation.Valid;
@@ -35,42 +35,41 @@ public class RegistryOfficeStateController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public RegistryOfficeStateCreationResponse createRegistryOfficeState(
-            @RequestBody @Valid CreateRegistryOfficeStateRequest request)
-            throws DuplicateEntryException {
+    public StateCreationResponse createRegistryOfficeState(
+            @RequestBody @Valid StateCreationRequest request) throws DuplicateEntryException {
         RegistryOfficeState newRegistryOfficeState =
                 registryOfficeStateService.createRegistryOfficeState(
                         request.getId(), request.getName());
-        return new RegistryOfficeStateCreationResponse(newRegistryOfficeState);
+        return new StateCreationResponse(newRegistryOfficeState);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public RegistryOfficeStateAlterationResponse updateRegistryOfficeState(
-            @PathVariable String id, @RequestBody @Valid AlterRegistryOfficeStateRequest request)
+    public StateAlterationResponse updateRegistryOfficeState(
+            @PathVariable String id, @RequestBody @Valid StateAlterationRequest request)
             throws InvalidIdForUpdateException {
         RegistryOfficeState updatedState =
                 registryOfficeStateService.updateRegistryOfficeState(id, request.getName());
-        return new RegistryOfficeStateAlterationResponse(updatedState);
+        return new StateAlterationResponse(updatedState);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public RegistryOfficeStateDeletionResponse deleteRegistryOfficeState(@PathVariable String id)
+    public StateDeletionResponse deleteRegistryOfficeState(@PathVariable String id)
             throws InvalidIdForUpdateException, EntryStillBeingUsedException {
         boolean cantBeDeleted = registryOfficeService.checkifAnyRegistryOfficeContainsState(id);
         if (cantBeDeleted) {
             throw new EntryStillBeingUsedException("Registro utilizado em outro cadastro.");
         }
         registryOfficeStateService.deleteRegistryOfficeState(id);
-        return new RegistryOfficeStateDeletionResponse(id);
+        return new StateDeletionResponse(id);
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public RegistryOfficeStateLookupResponse getRegistryOfficeState(@PathVariable String id)
+    public StateLookupResponse getRegistryOfficeState(@PathVariable String id)
             throws EntryNotFoundException {
         RegistryOfficeState state = registryOfficeStateService.getRegistryOfficeState(id);
-        return new RegistryOfficeStateLookupResponse(state);
+        return new StateLookupResponse(state);
     }
 }

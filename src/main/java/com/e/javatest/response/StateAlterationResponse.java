@@ -3,14 +3,14 @@ package com.e.javatest.response;
 import com.e.javatest.model.RegistryOfficeState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class RegistryOfficeStateAlterationResponse {
+public class StateAlterationResponse {
     @JsonProperty("mensagem")
     private final String message;
 
     @JsonProperty("dados")
     private final RegistryOfficeState data;
 
-    public RegistryOfficeStateAlterationResponse(RegistryOfficeState updatedState) {
+    public StateAlterationResponse(RegistryOfficeState updatedState) {
         this.message =
                 "A situação de cartório com id '"
                         + updatedState.getId()

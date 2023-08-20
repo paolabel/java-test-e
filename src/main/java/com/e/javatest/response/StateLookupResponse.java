@@ -5,14 +5,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class RegistryOfficeStateLookupResponse {
+public class StateLookupResponse {
     @JsonProperty("id")
     private final String id;
 
     @JsonProperty("nome")
     private final String name;
 
-    public RegistryOfficeStateLookupResponse(RegistryOfficeState state) {
+    public StateLookupResponse(RegistryOfficeState state) {
         this.id = state.getId();
         this.name = state.getName();
     }
