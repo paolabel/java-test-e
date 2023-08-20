@@ -25,7 +25,7 @@ public class CreateRegistryOfficeWithChildrenIdsRequest {
 
     @NotEmpty(message = "ID da situação do cartório não pode estar vazia")
     @JsonProperty("idSituacao")
-    private final String situationId;
+    private final String stateId;
 
     @NotEmpty(message = "Lista de IDs de atribuições do cartório não pode estar vazia")
     @Size(min = 1)

@@ -1,9 +1,9 @@
 package com.e.javatest.response;
 
-import com.e.javatest.model.RegistryOfficeSituation;
+import com.e.javatest.model.RegistryOfficeState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class RegistryOfficeSituationAlterationResponse {
+public class RegistryOfficeStateAlterationResponse {
     @JsonProperty("message")
     private final String message;
 
@@ -11,13 +11,13 @@ public class RegistryOfficeSituationAlterationResponse {
     private final int statusCode = 200;
 
     @JsonProperty("result")
-    private final RegistryOfficeSituation result;
+    private final RegistryOfficeState result;
 
-    public RegistryOfficeSituationAlterationResponse(RegistryOfficeSituation updatedSituation) {
+    public RegistryOfficeStateAlterationResponse(RegistryOfficeState updatedState) {
         this.message =
                 "A situação de cartório com id \\'"
-                        + updatedSituation.getId()
+                        + updatedState.getId()
                         + "\\' foi alterada com sucesso.";
-        this.result = updatedSituation;
+        this.result = updatedState;
     }
 }

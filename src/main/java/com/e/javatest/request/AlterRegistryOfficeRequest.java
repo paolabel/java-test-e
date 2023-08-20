@@ -15,7 +15,7 @@ public class AlterRegistryOfficeRequest {
 
     @Size(max = 20, message = "Novo valor para o nome do registro deve ter até 20 caracteres")
     @JsonProperty("idSituacao")
-    final Optional<String> situationId;
+    final Optional<String> stateId;
 
     @JsonProperty("idsAtribuicoes")
     final Optional<List<String>> assignmentIdList;

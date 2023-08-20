@@ -4,15 +4,15 @@ import com.e.javatest.exception.DuplicateEntryException;
 import com.e.javatest.exception.EntryNotFoundException;
 import com.e.javatest.exception.EntrysStillBeingUsedException;
 import com.e.javatest.exception.InvalidIdForUpdateException;
-import com.e.javatest.model.RegistryOfficeSituation;
-import com.e.javatest.request.AlterRegistryOfficeSituationRequest;
-import com.e.javatest.request.CreateRegistryOfficeSituationRequest;
-import com.e.javatest.response.RegistryOfficeSituationAlterationResponse;
-import com.e.javatest.response.RegistryOfficeSituationCreationResponse;
-import com.e.javatest.response.RegistryOfficeSituationDeletionResponse;
-import com.e.javatest.response.RegistryOfficeSituationLookupResponse;
+import com.e.javatest.model.RegistryOfficeState;
+import com.e.javatest.request.AlterRegistryOfficeStateRequest;
+import com.e.javatest.request.CreateRegistryOfficeStateRequest;
+import com.e.javatest.response.RegistryOfficeStateAlterationResponse;
+import com.e.javatest.response.RegistryOfficeStateCreationResponse;
+import com.e.javatest.response.RegistryOfficeStateDeletionResponse;
+import com.e.javatest.response.RegistryOfficeStateLookupResponse;
 import com.e.javatest.service.RegistryOfficeService;
-import com.e.javatest.service.RegistryOfficeSituationService;
+import com.e.javatest.service.RegistryOfficeStateService;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,51 +29,51 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(path = "/situacao-cartorio", produces = MediaType.APPLICATION_JSON_VALUE)
-public class RegistryOfficeSituationController {
-    @Autowired RegistryOfficeSituationService registryOfficeSituationService;
+public class RegistryOfficeStateController {
+    @Autowired RegistryOfficeStateService registryOfficeStateService;
     @Autowired RegistryOfficeService registryOfficeService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public RegistryOfficeSituationCreationResponse createRegistryOfficeSituation(
-            @RequestBody @Valid CreateRegistryOfficeSituationRequest request)
+    public RegistryOfficeStateCreationResponse createRegistryOfficeState(
+            @RequestBody @Valid CreateRegistryOfficeStateRequest request)
             throws DuplicateEntryException {
         String id =
-                registryOfficeSituationService.createRegistryOfficeSituation(
+                registryOfficeStateService.createRegistryOfficeState(
                         request.getId(), request.getName());
-        return new RegistryOfficeSituationCreationResponse(id);
+        return new RegistryOfficeStateCreationResponse(id);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public RegistryOfficeSituationAlterationResponse updateRegistryOfficeSituation(
+    public RegistryOfficeStateAlterationResponse updateRegistryOfficeState(
             @PathVariable String id,
-            @RequestBody @Valid AlterRegistryOfficeSituationRequest request)
+            @RequestBody @Valid AlterRegistryOfficeStateRequest request)
             throws InvalidIdForUpdateException {
-        RegistryOfficeSituation updatedSituation =
-                registryOfficeSituationService.updateRegistryOfficeSituation(id, request.getName());
-        return new RegistryOfficeSituationAlterationResponse(updatedSituation);
+        RegistryOfficeState updatedState =
+                registryOfficeStateService.updateRegistryOfficeState(id, request.getName());
+        return new RegistryOfficeStateAlterationResponse(updatedState);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public RegistryOfficeSituationDeletionResponse deleteRegistryOfficeSituation(
+    public RegistryOfficeStateDeletionResponse deleteRegistryOfficeState(
             @PathVariable String id)
             throws InvalidIdForUpdateException, EntrysStillBeingUsedException {
-        boolean cantBeDeleted = registryOfficeService.checkifAnyRegistryOfficeContainsSituation(id);
+        boolean cantBeDeleted = registryOfficeService.checkifAnyRegistryOfficeContainsState(id);
         if (cantBeDeleted) {
             throw new EntrysStillBeingUsedException("Registro utilizado em outro cadastro.");
         }
-        registryOfficeSituationService.deleteRegistryOfficeSituation(id);
-        return new RegistryOfficeSituationDeletionResponse(id);
+        registryOfficeStateService.deleteRegistryOfficeState(id);
+        return new RegistryOfficeStateDeletionResponse(id);
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public RegistryOfficeSituationLookupResponse getRegistryOfficeSituation(@PathVariable String id)
+    public RegistryOfficeStateLookupResponse getRegistryOfficeState(@PathVariable String id)
             throws EntryNotFoundException {
-        RegistryOfficeSituation situation =
-                registryOfficeSituationService.getRegistryOfficeSituation(id);
-        return new RegistryOfficeSituationLookupResponse(situation);
+        RegistryOfficeState state =
+                registryOfficeStateService.getRegistryOfficeState(id);
+        return new RegistryOfficeStateLookupResponse(state);
     }
 }

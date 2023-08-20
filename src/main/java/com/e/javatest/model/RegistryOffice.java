@@ -27,7 +27,7 @@ public class RegistryOffice {
 
     @OneToOne(optional = false)
     @JoinColumn(name = "situacao", referencedColumnName = "id", nullable = false)
-    private RegistryOfficeSituation situation;
+    private RegistryOfficeState state;
 
     @ManyToMany
     @JoinTable(
@@ -56,7 +56,7 @@ public class RegistryOffice {
             int id,
             String name,
             Optional<String> observation,
-            RegistryOfficeSituation situation,
+            RegistryOfficeState state,
             List<RegistryOfficeAssignment> assignments) {
         if (id <= 0) {
             throw new IllegalArgumentException("Valor do ID inválido para cadastro de cartório");
@@ -70,7 +70,7 @@ public class RegistryOffice {
         if (observation.isPresent()) {
             this.observation = observation.get();
         }
-        this.situation = situation;
+        this.state = state;
         this.assignments = assignments;
     }
 }

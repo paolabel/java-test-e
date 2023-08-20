@@ -13,8 +13,8 @@ public class RegistryOfficeService {
 
     @Autowired RegistryOfficeRepository registryOfficeRepository;
 
-    public boolean checkifAnyRegistryOfficeContainsSituation(String situationId) {
-        List<RegistryOffice> list = registryOfficeRepository.findBySituationId(situationId);
+    public boolean checkifAnyRegistryOfficeContainsState(String stateId) {
+        List<RegistryOffice> list = registryOfficeRepository.findByStateId(stateId);
         return !list.isEmpty();
     }
 }

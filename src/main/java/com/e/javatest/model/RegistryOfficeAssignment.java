@@ -19,13 +19,13 @@ public class RegistryOfficeAssignment {
     private String name;
 
     @Column(name = "situacao", nullable = false)
-    private Boolean situation = true;
+    private Boolean state = true;
 
-    public RegistryOfficeAssignment(String id, String name, Optional<Boolean> situation) {
+    public RegistryOfficeAssignment(String id, String name, Optional<Boolean> state) {
         this.id = id;
         this.name = name;
-        if (situation.isPresent()) {
-            this.situation = situation.get();
+        if (state.isPresent()) {
+            this.state = state.get();
         }
     }
 }

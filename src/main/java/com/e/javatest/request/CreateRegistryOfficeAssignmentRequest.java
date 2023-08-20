@@ -18,5 +18,5 @@ public class CreateRegistryOfficeAssignmentRequest {
     private final String name;
 
     @JsonProperty("situacao")
-    private final Optional<Boolean> situation;
+    private final Optional<Boolean> state;
 }

@@ -25,7 +25,7 @@ public class CreateRegistryOfficeWithChildrenObjectsRequest {
 
     @NotEmpty(message = "Situação do cartório a ser criada não pode estar vazia")
     @JsonProperty("situacao")
-    private final CreateRegistryOfficeSituationRequest situation;
+    private final CreateRegistryOfficeStateRequest state;
 
     @NotEmpty(message = "Lista de atribuições do cartório a serem criadas não pode estar vazia")
     @Size(min = 1)

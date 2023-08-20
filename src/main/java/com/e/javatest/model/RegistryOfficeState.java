@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "situacoes_cartorio")
-public class RegistryOfficeSituation {
+public class RegistryOfficeState {
     @Id
     @Column(length = 20)
     private String id;
@@ -19,7 +19,7 @@ public class RegistryOfficeSituation {
     @Column(name = "nome", nullable = false, length = 50)
     private String name;
 
-    public RegistryOfficeSituation(String id, String name) {
+    public RegistryOfficeState(String id, String name) {
         this.id = id;
         this.name = name;
     }
