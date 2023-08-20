@@ -1,6 +1,7 @@
 package com.e.javatest.service;
 
 import com.e.javatest.exception.DuplicateEntryException;
+import com.e.javatest.exception.EntryNotFoundException;
 import com.e.javatest.exception.InvalidIdForUpdateException;
 import com.e.javatest.model.RegistryOfficeSituation;
 import com.e.javatest.repository.RegistryOfficeSituationRepository;
@@ -33,6 +34,17 @@ public class RegistryOfficeSituationService {
         return id;
     }
 
+    public RegistryOfficeSituation getRegistryOfficeSituation(String id)
+            throws EntryNotFoundException {
+        Optional<RegistryOfficeSituation> situation =
+                registryOfficeSituationRepository.findById(id);
+        if (situation.isEmpty()) {
+            throw new EntryNotFoundException(
+                    "Situação de cartório com id \\'" + id + "\\' não pôde ser encontrada.");
+        }
+        return situation.get();
+    }
+
     // Criar caso para quando não há alteração?
     public RegistryOfficeSituation updateRegistryOfficeSituation(String id, String name)
             throws InvalidIdForUpdateException {
@@ -40,11 +52,22 @@ public class RegistryOfficeSituationService {
                 registryOfficeSituationRepository.findById(id);
         if (existingSituation.isEmpty()) {
             throw new InvalidIdForUpdateException(
-                    "Situação de cartório com id '" + id + "' não pôde ser encontrado.");
+                    "Situação de cartório com id \\'" + id + "\\' não pôde ser encontrada.");
         }
         RegistryOfficeSituation updatedSituation = existingSituation.get();
         updatedSituation.setName(name);
         registryOfficeSituationRepository.save(updatedSituation);
         return updatedSituation;
+    }
+
+    public String deleteRegistryOfficeSituation(String id) throws InvalidIdForUpdateException {
+        Optional<RegistryOfficeSituation> existingSituation =
+                registryOfficeSituationRepository.findById(id);
+        if (existingSituation.isEmpty()) {
+            throw new InvalidIdForUpdateException(
+                    "Situação de cartório com id \\'" + id + "\\' não pôde ser encontrada.");
+        }
+        registryOfficeSituationRepository.deleteById(id);
+        return id;
     }
 }

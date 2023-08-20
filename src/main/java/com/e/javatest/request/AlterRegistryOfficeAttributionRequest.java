@@ -10,12 +10,12 @@ import lombok.Data;
 public class AlterRegistryOfficeAttributionRequest {
     @NotEmpty(message = "ID do registro não pode estar vazio")
     @Size(max = 20, message = "ID do registro deve ter até 20 caracteres")
-    final String id;
+    private final String id;
 
     @Size(max = 50, message = "Novo valor para o nome do registro deve ter até 50 caracteres")
     @JsonProperty("nome")
-    final Optional<String> name;
+    private final Optional<String> name;
 
     @JsonProperty("situacao")
-    final Optional<Boolean> situation;
+    private final Optional<Boolean> situation;
 }

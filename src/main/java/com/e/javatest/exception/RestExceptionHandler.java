@@ -31,9 +31,22 @@ public class RestExceptionHandler {
         return errorMessage;
     }
 
-    @ExceptionHandler(value = {DuplicateEntryException.class, InvalidIdForUpdateException.class})
+    @ExceptionHandler(
+            value = {
+                DuplicateEntryException.class,
+                InvalidIdForUpdateException.class,
+                EntrysStillBeingUsedException.class
+            })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected ErrorResponse handleEntryException(Exception ex, WebRequest request) {
+        ErrorResponse errorMessage = new ErrorResponse(ex);
+        return errorMessage;
+    }
+
+    @ExceptionHandler(value = {EntryNotFoundException.class})
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    protected ErrorResponse handleEntryNotFoundException(
+            EntryNotFoundException ex, WebRequest request) {
         ErrorResponse errorMessage = new ErrorResponse(ex);
         return errorMessage;
     }

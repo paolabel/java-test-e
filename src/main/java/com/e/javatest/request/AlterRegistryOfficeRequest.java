@@ -3,16 +3,11 @@ package com.e.javatest.request;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import java.util.Optional;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import lombok.Data;
 
 @Data
 public class AlterRegistryOfficeRequest {
-    @NotEmpty(message = "ID do registro não pode estar vazio")
-    @Min(1)
-    final int id;
 
     @Size(max = 150, message = "Novo valor para o nome do registro deve ter até 150 caracteres")
     @JsonProperty("nome")
