@@ -2,9 +2,11 @@ package com.e.javatest.response;
 
 import com.e.javatest.model.RegistryOffice;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Data;
 
 @Data
+@JsonPropertyOrder(alphabetic = true)
 public class RegistryOfficeCreationResponse {
     @JsonProperty("mensagem")
     private final String message;

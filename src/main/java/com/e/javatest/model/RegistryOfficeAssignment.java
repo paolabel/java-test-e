@@ -1,6 +1,7 @@
 package com.e.javatest.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.util.Optional;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "atribuicoes_cartorio")
+@JsonPropertyOrder(alphabetic = true)
 public class RegistryOfficeAssignment {
     @Id
     @Column(length = 20)

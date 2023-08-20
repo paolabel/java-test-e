@@ -2,7 +2,9 @@ package com.e.javatest.response;
 
 import com.e.javatest.model.RegistryOfficeState;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+@JsonPropertyOrder(alphabetic = true)
 public class StateUpdateResponse {
     @JsonProperty("mensagem")
     private final String message;
