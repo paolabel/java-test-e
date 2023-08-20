@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "atribuicoes_cartorio")
-public class RegistryOfficeAttribution {
+public class RegistryOfficeAssignment {
     @Id
     @Column(length = 20)
     private String id;
@@ -21,7 +21,7 @@ public class RegistryOfficeAttribution {
     @Column(name = "situacao", nullable = false)
     private Boolean situation = true;
 
-    public RegistryOfficeAttribution(String id, String name, Optional<Boolean> situation) {
+    public RegistryOfficeAssignment(String id, String name, Optional<Boolean> situation) {
         this.id = id;
         this.name = name;
         if (situation.isPresent()) {

@@ -30,5 +30,5 @@ public class CreateRegistryOfficeWithChildrenObjectsRequest {
     @NotEmpty(message = "Lista de atribuições do cartório a serem criadas não pode estar vazia")
     @Size(min = 1)
     @JsonProperty("atribuicoes")
-    private final List<CreateRegistryOfficeAttributionRequest> attributionList;
+    private final List<CreateRegistryOfficeAssignmentRequest> assignmentList;
 }

@@ -7,15 +7,14 @@ import javax.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class CreateRegistryOfficeAttributionRequest {
+public class AlterRegistryOfficeAssignmentRequest {
     @NotEmpty(message = "ID do registro não pode estar vazio")
     @Size(max = 20, message = "ID do registro deve ter até 20 caracteres")
     private final String id;
 
-    @NotEmpty(message = "Nome do registro não pode estar vazio")
-    @Size(max = 50, message = "Nome do registro deve ter até 50 caracteres")
+    @Size(max = 50, message = "Novo valor para o nome do registro deve ter até 50 caracteres")
     @JsonProperty("nome")
-    private final String name;
+    private final Optional<String> name;
 
     @JsonProperty("situacao")
     private final Optional<Boolean> situation;

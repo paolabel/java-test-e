@@ -18,5 +18,5 @@ public class AlterRegistryOfficeRequest {
     final Optional<String> situationId;
 
     @JsonProperty("idsAtribuicoes")
-    final Optional<List<String>> attributionIdList;
+    final Optional<List<String>> assignmentIdList;
 }

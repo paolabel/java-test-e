@@ -50,18 +50,18 @@ public class RegistryOffice {
                     @UniqueConstraint(
                             name = "UNIQUE_cartorio_atribuicao",
                             columnNames = {"cartorio_id", "atribuicao_id"}))
-    private List<RegistryOfficeAttribution> attributions;
+    private List<RegistryOfficeAssignment> assignments;
 
     public RegistryOffice(
             int id,
             String name,
             Optional<String> observation,
             RegistryOfficeSituation situation,
-            List<RegistryOfficeAttribution> attributions) {
+            List<RegistryOfficeAssignment> assignments) {
         if (id <= 0) {
             throw new IllegalArgumentException("Valor do ID inválido para cadastro de cartório");
         }
-        if (attributions.size() < 1) {
+        if (assignments.size() < 1) {
             throw new IllegalArgumentException(
                     "É necessária pelo menos 1 atribuição do cartório no registro");
         }
@@ -71,6 +71,6 @@ public class RegistryOffice {
             this.observation = observation.get();
         }
         this.situation = situation;
-        this.attributions = attributions;
+        this.assignments = assignments;
     }
 }
