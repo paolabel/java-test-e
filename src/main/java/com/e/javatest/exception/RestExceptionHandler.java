@@ -35,10 +35,11 @@ public class RestExceptionHandler {
             value = {
                 DuplicateEntryException.class,
                 InvalidIdForUpdateException.class,
-                EntrysStillBeingUsedException.class
+                EntryStillBeingUsedException.class,
+                NoFieldToUpdateException.class
             })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    protected ErrorResponse handleEntryException(Exception ex, WebRequest request) {
+    protected ErrorResponse handleSimpleBadRequestExceptions(Exception ex, WebRequest request) {
         ErrorResponse errorMessage = new ErrorResponse(ex);
         return errorMessage;
     }

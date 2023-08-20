@@ -8,10 +8,16 @@ import lombok.Data;
 @Data
 public class AlterRegistryOfficeAssignmentRequest {
 
-    @Size(min = 1, message = "Novo valor para o nome do registro não pode ser vazio")
-    @Size(max = 50, message = "Novo valor para o nome do registro deve ter até 50 caracteres")
+    private static final String MIN_NAME_SIZE_MESSAGE =
+            "Novo valor para o nome do registro não pode ser vazio";
+    private static final String MAX_NAME_SIZE_MESSAGE =
+            "Novo valor para o nome do registro deve ter até 50 caracteres";
+
     @JsonProperty("nome")
-    private final Optional<String> name;
+    private final Optional<
+                    @Size(min = 1, message = MIN_NAME_SIZE_MESSAGE)
+                    @Size(max = 50, message = MAX_NAME_SIZE_MESSAGE) String>
+            name;
 
     @JsonProperty("situacao")
     private final Optional<Boolean> state;

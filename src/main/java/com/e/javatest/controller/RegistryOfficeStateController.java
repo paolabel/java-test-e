@@ -2,7 +2,7 @@ package com.e.javatest.controller;
 
 import com.e.javatest.exception.DuplicateEntryException;
 import com.e.javatest.exception.EntryNotFoundException;
-import com.e.javatest.exception.EntrysStillBeingUsedException;
+import com.e.javatest.exception.EntryStillBeingUsedException;
 import com.e.javatest.exception.InvalidIdForUpdateException;
 import com.e.javatest.model.RegistryOfficeState;
 import com.e.javatest.request.AlterRegistryOfficeStateRequest;
@@ -57,10 +57,10 @@ public class RegistryOfficeStateController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public RegistryOfficeStateDeletionResponse deleteRegistryOfficeState(@PathVariable String id)
-            throws InvalidIdForUpdateException, EntrysStillBeingUsedException {
+            throws InvalidIdForUpdateException, EntryStillBeingUsedException {
         boolean cantBeDeleted = registryOfficeService.checkifAnyRegistryOfficeContainsState(id);
         if (cantBeDeleted) {
-            throw new EntrysStillBeingUsedException("Registro utilizado em outro cadastro.");
+            throw new EntryStillBeingUsedException("Registro utilizado em outro cadastro.");
         }
         registryOfficeStateService.deleteRegistryOfficeState(id);
         return new RegistryOfficeStateDeletionResponse(id);

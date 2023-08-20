@@ -40,8 +40,7 @@ public class RegistryOfficeStateService {
         return state.get();
     }
 
-    // Criar caso para quando não há alteração?
-    public RegistryOfficeState updateRegistryOfficeState(String id, String name)
+    public RegistryOfficeState updateRegistryOfficeState(String id, String newName)
             throws InvalidIdForUpdateException {
         Optional<RegistryOfficeState> existingState = repository.findById(id);
         if (existingState.isEmpty()) {
@@ -49,7 +48,7 @@ public class RegistryOfficeStateService {
                     "Situação de cartório com id '" + id + "' não pôde ser encontrada.");
         }
         RegistryOfficeState updatedState = existingState.get();
-        updatedState.setName(name);
+        updatedState.setName(newName);
         return repository.save(updatedState);
     }
 
