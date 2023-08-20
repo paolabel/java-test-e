@@ -88,4 +88,13 @@ public class RegistryOfficeService {
         }
         return repository.save(updatedRegistryOffice);
     }
+
+    public int deleteRegistryOffice(int id) throws InvalidIdException {
+        Optional<RegistryOffice> existingRegistryOffice = repository.findById(id);
+        if (existingRegistryOffice.isEmpty()) {
+            throw new InvalidIdException("Cartório com id '" + id + "' não pôde ser encontrado.");
+        }
+        repository.deleteById(id);
+        return id;
+    }
 }

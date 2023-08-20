@@ -65,8 +65,8 @@ public class RegistryOfficeAssignmentController {
         if (cantBeDeleted) {
             throw new EntryStillBeingUsedException("Registro utilizado em outro cadastro.");
         }
-        registryOfficeAssignmentService.deleteRegistryOfficeAssignment(id);
-        return new AssignmentDeletionResponse(id);
+        String deletedId = registryOfficeAssignmentService.deleteRegistryOfficeAssignment(id);
+        return new AssignmentDeletionResponse(deletedId);
     }
 
     @GetMapping("/{id}")

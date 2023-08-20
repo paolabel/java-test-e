@@ -62,8 +62,8 @@ public class RegistryOfficeStateController {
         if (cantBeDeleted) {
             throw new EntryStillBeingUsedException("Registro utilizado em outro cadastro.");
         }
-        registryOfficeStateService.deleteRegistryOfficeState(id);
-        return new StateDeletionResponse(id);
+        String deletedId = registryOfficeStateService.deleteRegistryOfficeState(id);
+        return new StateDeletionResponse(deletedId);
     }
 
     @GetMapping("/{id}")

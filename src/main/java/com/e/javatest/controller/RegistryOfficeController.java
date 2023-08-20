@@ -9,6 +9,7 @@ import com.e.javatest.model.RegistryOfficeState;
 import com.e.javatest.request.RegistryOfficeCreationRequest;
 import com.e.javatest.request.RegistryOfficeUpdateRequest;
 import com.e.javatest.response.RegistryOfficeCreationResponse;
+import com.e.javatest.response.RegistryOfficeDeletionResponse;
 import com.e.javatest.response.RegistryOfficeUpdateResponse;
 import com.e.javatest.service.RegistryOfficeAssignmentService;
 import com.e.javatest.service.RegistryOfficeService;
@@ -19,6 +20,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -95,5 +97,13 @@ public class RegistryOfficeController {
                         newState,
                         newAssignmentList);
         return new RegistryOfficeUpdateResponse(updatedRegistryOffice);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public RegistryOfficeDeletionResponse deleteRegistryOffice(@PathVariable int id)
+            throws InvalidIdException {
+        int deletedId = registryOfficeService.deleteRegistryOffice(id);
+        return new RegistryOfficeDeletionResponse(deletedId);
     }
 }
