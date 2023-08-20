@@ -8,6 +8,6 @@ public class RegistryOfficeStateDeletionResponse {
     private final int statusCode = 200;
 
     public RegistryOfficeStateDeletionResponse(String id) {
-        this.message = "A situação de cartório com id \\'" + id + "\\' foi deletada com sucesso.";
+        this.message = "A situação de cartório com id '" + id + "' foi deletada com sucesso.";
     }
 }

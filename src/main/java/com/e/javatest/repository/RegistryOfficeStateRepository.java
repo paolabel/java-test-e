@@ -6,8 +6,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
-public interface RegistryOfficeStateRepository
-        extends JpaRepository<RegistryOfficeState, String> {
+public interface RegistryOfficeStateRepository extends JpaRepository<RegistryOfficeState, String> {
     @Transactional(readOnly = true)
     Optional<RegistryOfficeState> findById(String id);
 

@@ -38,17 +38,16 @@ public class RegistryOfficeStateController {
     public RegistryOfficeStateCreationResponse createRegistryOfficeState(
             @RequestBody @Valid CreateRegistryOfficeStateRequest request)
             throws DuplicateEntryException {
-        String id =
+        RegistryOfficeState newRegistryOfficeState =
                 registryOfficeStateService.createRegistryOfficeState(
                         request.getId(), request.getName());
-        return new RegistryOfficeStateCreationResponse(id);
+        return new RegistryOfficeStateCreationResponse(newRegistryOfficeState);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public RegistryOfficeStateAlterationResponse updateRegistryOfficeState(
-            @PathVariable String id,
-            @RequestBody @Valid AlterRegistryOfficeStateRequest request)
+            @PathVariable String id, @RequestBody @Valid AlterRegistryOfficeStateRequest request)
             throws InvalidIdForUpdateException {
         RegistryOfficeState updatedState =
                 registryOfficeStateService.updateRegistryOfficeState(id, request.getName());
@@ -57,8 +56,7 @@ public class RegistryOfficeStateController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public RegistryOfficeStateDeletionResponse deleteRegistryOfficeState(
-            @PathVariable String id)
+    public RegistryOfficeStateDeletionResponse deleteRegistryOfficeState(@PathVariable String id)
             throws InvalidIdForUpdateException, EntrysStillBeingUsedException {
         boolean cantBeDeleted = registryOfficeService.checkifAnyRegistryOfficeContainsState(id);
         if (cantBeDeleted) {
@@ -72,8 +70,7 @@ public class RegistryOfficeStateController {
     @ResponseStatus(HttpStatus.OK)
     public RegistryOfficeStateLookupResponse getRegistryOfficeState(@PathVariable String id)
             throws EntryNotFoundException {
-        RegistryOfficeState state =
-                registryOfficeStateService.getRegistryOfficeState(id);
+        RegistryOfficeState state = registryOfficeStateService.getRegistryOfficeState(id);
         return new RegistryOfficeStateLookupResponse(state);
     }
 }

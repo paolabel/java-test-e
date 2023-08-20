@@ -15,9 +15,9 @@ public class RegistryOfficeStateAlterationResponse {
 
     public RegistryOfficeStateAlterationResponse(RegistryOfficeState updatedState) {
         this.message =
-                "A situação de cartório com id \\'"
+                "A situação de cartório com id '"
                         + updatedState.getId()
-                        + "\\' foi alterada com sucesso.";
+                        + "' foi alterada com sucesso.";
         this.result = updatedState;
     }
 }

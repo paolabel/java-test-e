@@ -14,33 +14,28 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 // @Transactional(rollbackFor = {Exception.class, IllegalArgumentException.class})
 public class RegistryOfficeStateService {
-    @Autowired RegistryOfficeStateRepository registryOfficeStateRepository;
+    @Autowired RegistryOfficeStateRepository repository;
 
-    public String createRegistryOfficeState(String id, String name)
+    public RegistryOfficeState createRegistryOfficeState(String id, String name)
             throws DuplicateEntryException {
-        Optional<RegistryOfficeState> duplicateIdEntry =
-                registryOfficeStateRepository.findById(id);
+        Optional<RegistryOfficeState> duplicateIdEntry = repository.findById(id);
         if (duplicateIdEntry.isPresent()) {
             throw new DuplicateEntryException("Registro já cadastrado");
         }
-        Optional<RegistryOfficeState> duplicateNameEntry =
-                registryOfficeStateRepository.findByName(name);
+        Optional<RegistryOfficeState> duplicateNameEntry = repository.findByName(name);
         if (duplicateNameEntry.isPresent()) {
             String foundId = duplicateNameEntry.get().getId();
             throw new DuplicateEntryException(
                     "Nome já informado no registro com código " + foundId);
         }
-        registryOfficeStateRepository.save(new RegistryOfficeState(id, name));
-        return id;
+        return repository.save(new RegistryOfficeState(id, name));
     }
 
-    public RegistryOfficeState getRegistryOfficeState(String id)
-            throws EntryNotFoundException {
-        Optional<RegistryOfficeState> state =
-                registryOfficeStateRepository.findById(id);
+    public RegistryOfficeState getRegistryOfficeState(String id) throws EntryNotFoundException {
+        Optional<RegistryOfficeState> state = repository.findById(id);
         if (state.isEmpty()) {
             throw new EntryNotFoundException(
-                    "Situação de cartório com id \\'" + id + "\\' não pôde ser encontrada.");
+                    "Situação de cartório com id '" + id + "' não pôde ser encontrada.");
         }
         return state.get();
     }
@@ -48,26 +43,23 @@ public class RegistryOfficeStateService {
     // Criar caso para quando não há alteração?
     public RegistryOfficeState updateRegistryOfficeState(String id, String name)
             throws InvalidIdForUpdateException {
-        Optional<RegistryOfficeState> existingState =
-                registryOfficeStateRepository.findById(id);
+        Optional<RegistryOfficeState> existingState = repository.findById(id);
         if (existingState.isEmpty()) {
             throw new InvalidIdForUpdateException(
-                    "Situação de cartório com id \\'" + id + "\\' não pôde ser encontrada.");
+                    "Situação de cartório com id '" + id + "' não pôde ser encontrada.");
         }
         RegistryOfficeState updatedState = existingState.get();
         updatedState.setName(name);
-        registryOfficeStateRepository.save(updatedState);
-        return updatedState;
+        return repository.save(updatedState);
     }
 
     public String deleteRegistryOfficeState(String id) throws InvalidIdForUpdateException {
-        Optional<RegistryOfficeState> existingState =
-                registryOfficeStateRepository.findById(id);
+        Optional<RegistryOfficeState> existingState = repository.findById(id);
         if (existingState.isEmpty()) {
             throw new InvalidIdForUpdateException(
-                    "Situação de cartório com id \\'" + id + "\\' não pôde ser encontrada.");
+                    "Situação de cartório com id '" + id + "' não pôde ser encontrada.");
         }
-        registryOfficeStateRepository.deleteById(id);
+        repository.deleteById(id);
         return id;
     }
 }
