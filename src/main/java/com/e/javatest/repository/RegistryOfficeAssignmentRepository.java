@@ -3,6 +3,7 @@ package com.e.javatest.repository;
 import com.e.javatest.model.RegistryOfficeAssignment;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,8 +16,8 @@ public interface RegistryOfficeAssignmentRepository
     Optional<RegistryOfficeAssignment> findByName(String name);
 
     @Transactional(readOnly = true)
-    List<RegistryOfficeAssignment> findAll();
+    List<RegistryOfficeAssignment> findByIdIn(List<String> assignmentIdList);
 
     @Transactional(readOnly = true)
-    List<RegistryOfficeAssignment> findByIdIn(List<String> assignmentIdList);
+    List<IdAndNameOnly> findAllProjectedBy(Pageable pageable);
 }

@@ -8,11 +8,11 @@ import lombok.Data;
 
 @Data
 @JsonPropertyOrder(alphabetic = true)
-public class RegistryOfficeListResponse {
+public class ListAllResponse {
     @JsonProperty("dados")
     private List<IdAndNameOnly> searchResult;
 
-    public RegistryOfficeListResponse(List<IdAndNameOnly> searchResult) {
+    public ListAllResponse(List<IdAndNameOnly> searchResult) {
         this.searchResult = searchResult;
     }
 }

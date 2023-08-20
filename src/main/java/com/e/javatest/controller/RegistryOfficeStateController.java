@@ -7,6 +7,7 @@ import com.e.javatest.exception.InvalidIdException;
 import com.e.javatest.model.RegistryOfficeState;
 import com.e.javatest.request.StateCreationRequest;
 import com.e.javatest.request.StateUpdateRequest;
+import com.e.javatest.response.ListAllResponse;
 import com.e.javatest.response.StateCreationResponse;
 import com.e.javatest.response.StateDeletionResponse;
 import com.e.javatest.response.StateLookupResponse;
@@ -15,6 +16,7 @@ import com.e.javatest.service.RegistryOfficeService;
 import com.e.javatest.service.RegistryOfficeStateService;
 import java.util.Optional;
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,6 +37,8 @@ public class RegistryOfficeStateController {
     @Autowired RegistryOfficeStateService registryOfficeStateService;
     @Autowired RegistryOfficeService registryOfficeService;
 
+    private static final String MIN_PAGE_NUMBER_MESSAGE = "Número da página deve ser maior que 0";
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public StateCreationResponse createRegistryOfficeState(
@@ -42,6 +47,15 @@ public class RegistryOfficeStateController {
                 registryOfficeStateService.createRegistryOfficeState(
                         request.getId(), request.getName());
         return new StateCreationResponse(newRegistryOfficeState);
+    }
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public ListAllResponse listAllRegistryOfficeStates(
+            @RequestParam(defaultValue = "1") @Min(value = 1, message = MIN_PAGE_NUMBER_MESSAGE)
+                    int page) {
+        return new ListAllResponse(
+                registryOfficeStateService.listAllRegistryOfficeStateIdAndName(page));
     }
 
     @PutMapping("/{id}")

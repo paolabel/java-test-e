@@ -3,6 +3,7 @@ package com.e.javatest.repository;
 import com.e.javatest.model.RegistryOfficeState;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,5 +15,5 @@ public interface RegistryOfficeStateRepository extends JpaRepository<RegistryOff
     Optional<RegistryOfficeState> findByName(String name);
 
     @Transactional(readOnly = true)
-    List<RegistryOfficeState> findAll();
+    List<IdAndNameOnly> findAllProjectedBy(Pageable pageable);
 }

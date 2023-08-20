@@ -9,9 +9,9 @@ import com.e.javatest.model.RegistryOfficeAssignment;
 import com.e.javatest.model.RegistryOfficeState;
 import com.e.javatest.request.RegistryOfficeCreationRequest;
 import com.e.javatest.request.RegistryOfficeUpdateRequest;
+import com.e.javatest.response.ListAllResponse;
 import com.e.javatest.response.RegistryOfficeCreationResponse;
 import com.e.javatest.response.RegistryOfficeDeletionResponse;
-import com.e.javatest.response.RegistryOfficeListResponse;
 import com.e.javatest.response.RegistryOfficeLookupResponse;
 import com.e.javatest.response.RegistryOfficeUpdateResponse;
 import com.e.javatest.service.RegistryOfficeAssignmentService;
@@ -76,12 +76,10 @@ public class RegistryOfficeController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public RegistryOfficeListResponse listAllRegistryOffices(
+    public ListAllResponse listAllRegistryOffices(
             @RequestParam(defaultValue = "1") @Min(value = 1, message = MIN_PAGE_NUMBER_MESSAGE)
-                    int page)
-            throws EntryNotFoundException {
-        return new RegistryOfficeListResponse(
-                registryOfficeService.listAllRegistryOfficeIdAndName(page));
+                    int page) {
+        return new ListAllResponse(registryOfficeService.listAllRegistryOfficeIdAndName(page));
     }
 
     @PutMapping("/{id}")

@@ -5,12 +5,17 @@ import com.e.javatest.exception.EntryNotFoundException;
 import com.e.javatest.exception.InvalidIdException;
 import com.e.javatest.exception.NoFieldToUpdateException;
 import com.e.javatest.model.RegistryOfficeAssignment;
+import com.e.javatest.repository.IdAndNameOnly;
 import com.e.javatest.repository.RegistryOfficeAssignmentRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,6 +23,8 @@ import org.springframework.stereotype.Service;
 public class RegistryOfficeAssignmentService {
 
     @Autowired RegistryOfficeAssignmentRepository repository;
+
+    private static final int PAGE_SIZE = 10;
 
     public RegistryOfficeAssignment createRegistryOfficeAssignment(
             String id, String name, Optional<Boolean> state) throws DuplicateEntryException {
@@ -96,5 +103,10 @@ public class RegistryOfficeAssignmentService {
         }
         repository.deleteById(id);
         return id;
+    }
+
+        public List<IdAndNameOnly> listAllRegistryOfficeAssignmentIdAndName(int page) {
+        Pageable pageable = PageRequest.of((page - 1), PAGE_SIZE, Sort.by(Order.asc("id")));
+        return repository.findAllProjectedBy(pageable);
     }
 }
