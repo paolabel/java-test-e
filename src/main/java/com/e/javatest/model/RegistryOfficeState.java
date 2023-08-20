@@ -4,6 +4,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,6 +20,7 @@ public class RegistryOfficeState {
     private String id;
 
     @Column(name = "nome", nullable = false, length = 50)
+    @JsonProperty("nome")
     private String name;
 
     public RegistryOfficeState(String id, String name) {

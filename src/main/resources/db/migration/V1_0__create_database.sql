@@ -2,7 +2,8 @@ CREATE TABLE situacoes_cartorio
 (
     id     varchar(20) NOT NULL,
     nome   varchar(50) NOT NULL,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    UNIQUE(nome)
 );
 
 CREATE TABLE atribuicoes_cartorio
@@ -10,7 +11,8 @@ CREATE TABLE atribuicoes_cartorio
     id        varchar(20) NOT NULL,
     nome      varchar(50) NOT NULL,
     situacao  boolean     NOT NULL DEFAULT TRUE,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    UNIQUE(nome)
 );
 
 CREATE TABLE cartorios
@@ -20,6 +22,7 @@ CREATE TABLE cartorios
     observacao  varchar(250),
     situacao    varchar(20) NOT NULL,
     PRIMARY KEY (id),
+    UNIQUE(nome),
     CONSTRAINT valor_id CHECK (id > 0),
     FOREIGN KEY (situacao) REFERENCES situacoes_cartorio(id)
 );

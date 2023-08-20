@@ -2,10 +2,12 @@ package com.e.javatest.service;
 
 import com.e.javatest.exception.DuplicateEntryException;
 import com.e.javatest.exception.EntryNotFoundException;
-import com.e.javatest.exception.InvalidIdForUpdateException;
+import com.e.javatest.exception.InvalidIdException;
 import com.e.javatest.exception.NoFieldToUpdateException;
 import com.e.javatest.model.RegistryOfficeAssignment;
 import com.e.javatest.repository.RegistryOfficeAssignmentRepository;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,12 +44,30 @@ public class RegistryOfficeAssignmentService {
         return assignment.get();
     }
 
+    public List<RegistryOfficeAssignment> getAllRegistryOfficeAssignmentsInIdList(
+            List<String> idList) throws InvalidIdException {
+        List<RegistryOfficeAssignment> assignments = repository.findByIdIn(idList);
+        ArrayList<String> foundIdList = new ArrayList<>();
+        for (RegistryOfficeAssignment assignment : assignments) {
+            foundIdList.add(assignment.getId());
+        }
+        ArrayList<String> foundIdDifference = new ArrayList<>(idList);
+        foundIdDifference.removeAll(foundIdList);
+        if (foundIdDifference.size() > 0) {
+            throw new InvalidIdException(
+                    "Atribuições de cartório com id(s) "
+                            + foundIdDifference
+                            + " não existem no banco de dados.");
+        }
+        return assignments;
+    }
+
     public RegistryOfficeAssignment updateRegistryOfficeAssignment(
             String id, Optional<String> newName, Optional<Boolean> newState)
-            throws InvalidIdForUpdateException, NoFieldToUpdateException {
+            throws InvalidIdException, NoFieldToUpdateException {
         Optional<RegistryOfficeAssignment> existingAssignment = repository.findById(id);
         if (existingAssignment.isEmpty()) {
-            throw new InvalidIdForUpdateException(
+            throw new InvalidIdException(
                     "Atribuição de cartório com id '" + id + "' não pôde ser encontrada.");
         }
         RegistryOfficeAssignment updatedAssignment = existingAssignment.get();
@@ -68,10 +88,10 @@ public class RegistryOfficeAssignmentService {
         return repository.save(updatedAssignment);
     }
 
-    public String deleteRegistryOfficeAssignment(String id) throws InvalidIdForUpdateException {
+    public String deleteRegistryOfficeAssignment(String id) throws InvalidIdException {
         Optional<RegistryOfficeAssignment> existingAssignment = repository.findById(id);
         if (existingAssignment.isEmpty()) {
-            throw new InvalidIdForUpdateException(
+            throw new InvalidIdException(
                     "Situação de cartório com id '" + id + "' não pôde ser encontrada.");
         }
         repository.deleteById(id);

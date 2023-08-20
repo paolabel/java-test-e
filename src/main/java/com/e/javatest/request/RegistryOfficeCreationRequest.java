@@ -5,13 +5,14 @@ import java.util.List;
 import java.util.Optional;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class RegistryOfficeCreationWithIdsRequest {
-    @NotEmpty(message = "ID do registro não pode estar vazio")
-    @Min(0)
+public class RegistryOfficeCreationRequest {
+    @NotNull(message = "ID do registro não pode estar vazio")
+    @Min(1)
     private final int id;
 
     @NotEmpty(message = "Nome do registro não pode estar vazio")
@@ -19,9 +20,11 @@ public class RegistryOfficeCreationWithIdsRequest {
     @JsonProperty("nome")
     private final String name;
 
-    @Size(max = 250, message = "Observação do registro deve ter até 250 caracteres")
     @JsonProperty("observacao")
-    private final Optional<String> observation;
+    private final Optional<
+                    @Size(max = 250, message = "Observação do registro deve ter até 250 caracteres")
+                    String>
+            observation;
 
     @NotEmpty(message = "ID da situação do cartório não pode estar vazia")
     @JsonProperty("idSituacao")
@@ -30,5 +33,7 @@ public class RegistryOfficeCreationWithIdsRequest {
     @NotEmpty(message = "Lista de IDs de atribuições do cartório não pode estar vazia")
     @Size(min = 1)
     @JsonProperty("idsAtribuicoes")
-    private final List<String> assignmentIdList;
+    private final List<
+                    @NotEmpty(message = "ID da atribuição do cartório não pode estar vazia") String>
+            assignmentIdList;
 }

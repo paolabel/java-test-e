@@ -1,8 +1,7 @@
 package com.e.javatest.service;
 
 import com.e.javatest.exception.DuplicateEntryException;
-import com.e.javatest.exception.EntryNotFoundException;
-import com.e.javatest.exception.InvalidIdForUpdateException;
+import com.e.javatest.exception.InvalidIdException;
 import com.e.javatest.model.RegistryOfficeState;
 import com.e.javatest.repository.RegistryOfficeStateRepository;
 import java.util.Optional;
@@ -12,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-// @Transactional(rollbackFor = {Exception.class, IllegalArgumentException.class})
 public class RegistryOfficeStateService {
     @Autowired RegistryOfficeStateRepository repository;
 
@@ -31,20 +29,15 @@ public class RegistryOfficeStateService {
         return repository.save(new RegistryOfficeState(id, name));
     }
 
-    public RegistryOfficeState getRegistryOfficeState(String id) throws EntryNotFoundException {
-        Optional<RegistryOfficeState> state = repository.findById(id);
-        if (state.isEmpty()) {
-            throw new EntryNotFoundException(
-                    "Situação de cartório com id '" + id + "' não pôde ser encontrada.");
-        }
-        return state.get();
+    public Optional<RegistryOfficeState> getRegistryOfficeState(String id) {
+        return repository.findById(id);
     }
 
     public RegistryOfficeState updateRegistryOfficeState(String id, String newName)
-            throws InvalidIdForUpdateException {
+            throws InvalidIdException {
         Optional<RegistryOfficeState> existingState = repository.findById(id);
         if (existingState.isEmpty()) {
-            throw new InvalidIdForUpdateException(
+            throw new InvalidIdException(
                     "Situação de cartório com id '" + id + "' não pôde ser encontrada.");
         }
         RegistryOfficeState updatedState = existingState.get();
@@ -52,10 +45,10 @@ public class RegistryOfficeStateService {
         return repository.save(updatedState);
     }
 
-    public String deleteRegistryOfficeState(String id) throws InvalidIdForUpdateException {
+    public String deleteRegistryOfficeState(String id) throws InvalidIdException {
         Optional<RegistryOfficeState> existingState = repository.findById(id);
         if (existingState.isEmpty()) {
-            throw new InvalidIdForUpdateException(
+            throw new InvalidIdException(
                     "Situação de cartório com id '" + id + "' não pôde ser encontrada.");
         }
         repository.deleteById(id);

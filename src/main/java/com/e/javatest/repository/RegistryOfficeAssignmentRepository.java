@@ -16,4 +16,7 @@ public interface RegistryOfficeAssignmentRepository
 
     @Transactional(readOnly = true)
     List<RegistryOfficeAssignment> findAll();
+
+    @Transactional(readOnly = true)
+    List<RegistryOfficeAssignment> findByIdIn(List<String> assignmentIdList);
 }

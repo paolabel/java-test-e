@@ -34,7 +34,7 @@ public class RestExceptionHandler {
     @ExceptionHandler(
             value = {
                 DuplicateEntryException.class,
-                InvalidIdForUpdateException.class,
+                InvalidIdException.class,
                 EntryStillBeingUsedException.class,
                 NoFieldToUpdateException.class
             })

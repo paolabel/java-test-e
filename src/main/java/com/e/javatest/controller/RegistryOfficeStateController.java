@@ -3,7 +3,7 @@ package com.e.javatest.controller;
 import com.e.javatest.exception.DuplicateEntryException;
 import com.e.javatest.exception.EntryNotFoundException;
 import com.e.javatest.exception.EntryStillBeingUsedException;
-import com.e.javatest.exception.InvalidIdForUpdateException;
+import com.e.javatest.exception.InvalidIdException;
 import com.e.javatest.model.RegistryOfficeState;
 import com.e.javatest.request.StateAlterationRequest;
 import com.e.javatest.request.StateCreationRequest;
@@ -13,6 +13,7 @@ import com.e.javatest.response.StateDeletionResponse;
 import com.e.javatest.response.StateLookupResponse;
 import com.e.javatest.service.RegistryOfficeService;
 import com.e.javatest.service.RegistryOfficeStateService;
+import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -47,7 +48,7 @@ public class RegistryOfficeStateController {
     @ResponseStatus(HttpStatus.OK)
     public StateAlterationResponse updateRegistryOfficeState(
             @PathVariable String id, @RequestBody @Valid StateAlterationRequest request)
-            throws InvalidIdForUpdateException {
+            throws InvalidIdException {
         RegistryOfficeState updatedState =
                 registryOfficeStateService.updateRegistryOfficeState(id, request.getName());
         return new StateAlterationResponse(updatedState);
@@ -56,7 +57,7 @@ public class RegistryOfficeStateController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public StateDeletionResponse deleteRegistryOfficeState(@PathVariable String id)
-            throws InvalidIdForUpdateException, EntryStillBeingUsedException {
+            throws InvalidIdException, EntryStillBeingUsedException {
         boolean cantBeDeleted = registryOfficeService.checkifAnyRegistryOfficeContainsState(id);
         if (cantBeDeleted) {
             throw new EntryStillBeingUsedException("Registro utilizado em outro cadastro.");
@@ -69,7 +70,11 @@ public class RegistryOfficeStateController {
     @ResponseStatus(HttpStatus.OK)
     public StateLookupResponse getRegistryOfficeState(@PathVariable String id)
             throws EntryNotFoundException {
-        RegistryOfficeState state = registryOfficeStateService.getRegistryOfficeState(id);
-        return new StateLookupResponse(state);
+        Optional<RegistryOfficeState> state = registryOfficeStateService.getRegistryOfficeState(id);
+        if (state.isEmpty()) {
+            throw new EntryNotFoundException(
+                    "Situação de cartório com id '" + id + "' não pôde ser encontrada.");
+        }
+        return new StateLookupResponse(state.get());
     }
 }

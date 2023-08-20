@@ -3,7 +3,7 @@ package com.e.javatest.controller;
 import com.e.javatest.exception.DuplicateEntryException;
 import com.e.javatest.exception.EntryNotFoundException;
 import com.e.javatest.exception.EntryStillBeingUsedException;
-import com.e.javatest.exception.InvalidIdForUpdateException;
+import com.e.javatest.exception.InvalidIdException;
 import com.e.javatest.exception.NoFieldToUpdateException;
 import com.e.javatest.model.RegistryOfficeAssignment;
 import com.e.javatest.request.AssignmentAlterationRequest;
@@ -49,7 +49,7 @@ public class RegistryOfficeAssignmentController {
     @ResponseStatus(HttpStatus.OK)
     public AssignmentAlterationResponse updateRegistryOfficeAssignment(
             @PathVariable String id, @RequestBody @Valid AssignmentAlterationRequest request)
-            throws InvalidIdForUpdateException, NoFieldToUpdateException {
+            throws InvalidIdException, NoFieldToUpdateException {
         RegistryOfficeAssignment updatedAssignment =
                 registryOfficeAssignmentService.updateRegistryOfficeAssignment(
                         id, request.getName(), request.getState());
@@ -59,7 +59,7 @@ public class RegistryOfficeAssignmentController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public AssignmentDeletionResponse deleteRegistryOfficeAssignment(@PathVariable String id)
-            throws InvalidIdForUpdateException, EntryStillBeingUsedException {
+            throws InvalidIdException, EntryStillBeingUsedException {
         boolean cantBeDeleted =
                 registryOfficeService.checkifAnyRegistryOfficeContainsAssignment(id);
         if (cantBeDeleted) {
