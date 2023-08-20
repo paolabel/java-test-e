@@ -68,7 +68,7 @@ public class RegistryOfficeAssignmentService {
         Optional<RegistryOfficeAssignment> existingAssignment = repository.findById(id);
         if (existingAssignment.isEmpty()) {
             throw new InvalidIdException(
-                    "Atribuição de cartório com id '" + id + "' não pôde ser encontrada.");
+                    "Atribuição de cartório com id '" + id + "' não existe no banco de dados.");
         }
         RegistryOfficeAssignment updatedAssignment = existingAssignment.get();
         boolean wasUpdated = false;
@@ -92,7 +92,7 @@ public class RegistryOfficeAssignmentService {
         Optional<RegistryOfficeAssignment> existingAssignment = repository.findById(id);
         if (existingAssignment.isEmpty()) {
             throw new InvalidIdException(
-                    "Situação de cartório com id '" + id + "' não pôde ser encontrada.");
+                    "Situação de cartório com id '" + id + "' não existe no banco de dados.");
         }
         repository.deleteById(id);
         return id;

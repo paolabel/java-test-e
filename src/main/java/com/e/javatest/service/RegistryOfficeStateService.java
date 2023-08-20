@@ -38,7 +38,7 @@ public class RegistryOfficeStateService {
         Optional<RegistryOfficeState> existingState = repository.findById(id);
         if (existingState.isEmpty()) {
             throw new InvalidIdException(
-                    "Situação de cartório com id '" + id + "' não pôde ser encontrada.");
+                    "Situação de cartório com id '" + id + "' não existe no banco de dados.");
         }
         RegistryOfficeState updatedState = existingState.get();
         updatedState.setName(newName);
@@ -49,7 +49,7 @@ public class RegistryOfficeStateService {
         Optional<RegistryOfficeState> existingState = repository.findById(id);
         if (existingState.isEmpty()) {
             throw new InvalidIdException(
-                    "Situação de cartório com id '" + id + "' não pôde ser encontrada.");
+                    "Situação de cartório com id '" + id + "' não existe no banco de dados.");
         }
         repository.deleteById(id);
         return id;

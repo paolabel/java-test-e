@@ -1,6 +1,7 @@
 package com.e.javatest.service;
 
 import com.e.javatest.exception.DuplicateEntryException;
+import com.e.javatest.exception.EntryNotFoundException;
 import com.e.javatest.exception.InvalidIdException;
 import com.e.javatest.exception.NoFieldToUpdateException;
 import com.e.javatest.model.RegistryOffice;
@@ -92,9 +93,19 @@ public class RegistryOfficeService {
     public int deleteRegistryOffice(int id) throws InvalidIdException {
         Optional<RegistryOffice> existingRegistryOffice = repository.findById(id);
         if (existingRegistryOffice.isEmpty()) {
-            throw new InvalidIdException("Cartório com id '" + id + "' não pôde ser encontrado.");
+            throw new InvalidIdException(
+                    "Cartório com id '" + id + "' não existe no banco de dados.");
         }
         repository.deleteById(id);
         return id;
+    }
+
+    public RegistryOffice getRegistryOffice(int id) throws EntryNotFoundException {
+        Optional<RegistryOffice> registryOffice = repository.findById(id);
+        if (registryOffice.isEmpty()) {
+            throw new EntryNotFoundException(
+                    "Cartório com id '" + id + "' não pôde ser encontrado.");
+        }
+        return registryOffice.get();
     }
 }

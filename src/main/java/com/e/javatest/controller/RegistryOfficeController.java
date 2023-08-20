@@ -1,6 +1,7 @@
 package com.e.javatest.controller;
 
 import com.e.javatest.exception.DuplicateEntryException;
+import com.e.javatest.exception.EntryNotFoundException;
 import com.e.javatest.exception.InvalidIdException;
 import com.e.javatest.exception.NoFieldToUpdateException;
 import com.e.javatest.model.RegistryOffice;
@@ -10,6 +11,7 @@ import com.e.javatest.request.RegistryOfficeCreationRequest;
 import com.e.javatest.request.RegistryOfficeUpdateRequest;
 import com.e.javatest.response.RegistryOfficeCreationResponse;
 import com.e.javatest.response.RegistryOfficeDeletionResponse;
+import com.e.javatest.response.RegistryOfficeLookupResponse;
 import com.e.javatest.response.RegistryOfficeUpdateResponse;
 import com.e.javatest.service.RegistryOfficeAssignmentService;
 import com.e.javatest.service.RegistryOfficeService;
@@ -21,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -105,5 +108,13 @@ public class RegistryOfficeController {
             throws InvalidIdException {
         int deletedId = registryOfficeService.deleteRegistryOffice(id);
         return new RegistryOfficeDeletionResponse(deletedId);
+    }
+
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public RegistryOfficeLookupResponse getRegistryOffice(@PathVariable int id)
+            throws EntryNotFoundException {
+        RegistryOffice registryOffice = registryOfficeService.getRegistryOffice(id);
+        return new RegistryOfficeLookupResponse(registryOffice);
     }
 }

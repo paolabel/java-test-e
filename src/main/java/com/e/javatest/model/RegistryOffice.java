@@ -79,4 +79,12 @@ public class RegistryOffice {
         this.state = state;
         this.assignments = assignments;
     }
+
+    public Optional<String> getObservation() {
+        if (this.observation.equals(null)) {
+            return Optional.empty();
+        } else {
+            return Optional.of(this.observation);
+        }
+    }
 }
