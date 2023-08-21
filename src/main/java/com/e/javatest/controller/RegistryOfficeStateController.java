@@ -80,7 +80,7 @@ public class RegistryOfficeStateController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public StateDeletionResponse deleteRegistryOfficeState(@PathVariable String id)
-            throws InvalidIdException, EntryStillBeingUsedException {
+            throws InvalidIdException, EntryStillBeingUsedException, EntityNotFoundException {
         boolean cantBeDeleted = registryOfficeService.checkifAnyRegistryOfficeContainsState(id);
         if (cantBeDeleted) {
             throw new EntryStillBeingUsedException("Registro utilizado em outro cadastro.");

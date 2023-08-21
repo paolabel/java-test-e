@@ -21,6 +21,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import java.util.Optional;
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,7 +95,8 @@ public class RegistryOfficeController {
     @ResponseStatus(HttpStatus.OK)
     public RegistryOfficeUpdateResponse updateRegistryOffice(
             @PathVariable int id, @RequestBody @Valid RegistryOfficeUpdateRequest request)
-            throws InvalidIdException, NoFieldToUpdateException, DuplicateEntryException {
+            throws InvalidIdException, NoFieldToUpdateException, DuplicateEntryException,
+                    EntityNotFoundException {
 
         Optional<RegistryOfficeState> newState = Optional.empty();
         if (request.getStateId().isPresent()) {
@@ -127,7 +129,7 @@ public class RegistryOfficeController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public RegistryOfficeDeletionResponse deleteRegistryOffice(@PathVariable int id)
-            throws InvalidIdException {
+            throws EntityNotFoundException {
         int deletedId = registryOfficeService.deleteRegistryOffice(id);
         return new RegistryOfficeDeletionResponse(deletedId);
     }

@@ -65,7 +65,7 @@ public class RegistryOfficeService {
             Optional<String> newObservation,
             Optional<RegistryOfficeState> newState,
             Optional<List<RegistryOfficeAssignment>> newAssignmentList)
-            throws NoFieldToUpdateException, DuplicateEntryException {
+            throws NoFieldToUpdateException, DuplicateEntryException, EntityNotFoundException {
         Optional<RegistryOffice> existingRegistryOffice = repository.findById(id);
         if (existingRegistryOffice.isEmpty()) {
             throw new EntityNotFoundException(

@@ -103,7 +103,7 @@ public class RegistryOfficeAssignmentService {
         return repository.save(updatedAssignment);
     }
 
-    public String deleteRegistryOfficeAssignment(String id) throws InvalidIdException {
+    public String deleteRegistryOfficeAssignment(String id) throws EntityNotFoundException {
         Optional<RegistryOfficeAssignment> existingAssignment = repository.findById(id);
         if (existingAssignment.isEmpty()) {
             throw new EntityNotFoundException(
