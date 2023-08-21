@@ -82,7 +82,8 @@ public class RegistryOfficeController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public ListAllResponse listAllRegistryOffices(
-            @RequestParam(defaultValue = "1") @Min(value = 1, message = MIN_PAGE_NUMBER_MESSAGE)
+            @RequestParam(name = "pagina", defaultValue = "1")
+                    @Min(value = 1, message = MIN_PAGE_NUMBER_MESSAGE)
                     int page) {
         return new ListAllResponse(registryOfficeService.listAllRegistryOfficeIdAndName(page));
     }

@@ -58,7 +58,8 @@ public class RegistryOfficeAssignmentController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public ListAllResponse listAllRegistryOfficeStates(
-            @RequestParam(defaultValue = "1") @Min(value = 1, message = MIN_PAGE_NUMBER_MESSAGE)
+            @RequestParam(name = "pagina", defaultValue = "1")
+                    @Min(value = 1, message = MIN_PAGE_NUMBER_MESSAGE)
                     int page) {
         return new ListAllResponse(
                 registryOfficeAssignmentService.listAllRegistryOfficeAssignmentIdAndName(page));
