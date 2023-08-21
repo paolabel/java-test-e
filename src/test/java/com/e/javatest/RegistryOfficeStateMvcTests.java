@@ -22,7 +22,7 @@ public class RegistryOfficeStateMvcTests {
 
     private static final int MAX_ID_LENGTH = 20;
     private static final int MAX_NAME_LENGTH = 50;
-    private static final String ROOT_PATH = "/situacao-cartorio";
+    private static final String ROOT_PATH = "/situacao-cartorio/";
 
     @Test
     public void testIfCreateReturns400WhenIdIsTooLong() throws Exception {
@@ -124,5 +124,35 @@ public class RegistryOfficeStateMvcTests {
                                 .content(correctRequest.toString())
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated());
+    }
+
+    @Test
+    public void testIfUpdateReturns400WhenNameIsRepeated() throws Exception {
+        String updateId = "toUpdate";
+        String repeatName = "update repeat name";
+        JSONObject repeatNameRequest = new JSONObject();
+        repeatNameRequest.put("id", "idUpdateRepeatName1");
+        repeatNameRequest.put("nome", repeatName);
+        mvc.perform(
+                        post(ROOT_PATH)
+                                .content(repeatNameRequest.toString())
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated());
+        JSONObject repeatNameRequest2 = new JSONObject();
+        repeatNameRequest2.put("id", updateId);
+        repeatNameRequest2.put("nome", "nome original");
+        mvc.perform(
+                        post(ROOT_PATH)
+                                .content(repeatNameRequest2.toString())
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated());
+
+        JSONObject updateNameRequest = new JSONObject();
+        updateNameRequest.put("nome", repeatName);
+        mvc.perform(
+                        put(ROOT_PATH + updateId)
+                                .content(updateNameRequest.toString())
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
     }
 }
