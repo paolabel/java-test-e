@@ -30,7 +30,6 @@ mvn test -Dtest={nome da classe}
 
 Executar um teste específico:
 
-Executar uma classe de teste:
 ``` bash
 mvn test -Dtest={nome da classe}#{nome do teste}
 ```
