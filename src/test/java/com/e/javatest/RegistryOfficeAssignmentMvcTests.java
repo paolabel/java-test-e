@@ -1,8 +1,13 @@
 package com.e.javatest;
 
+import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import com.e.javatest.controller.RegistryOfficeAssignmentController;
+import com.e.javatest.request.AssignmentCreationRequest;
+import com.e.javatest.response.AssignmentCreationResponse;
+import java.util.Optional;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -16,19 +21,21 @@ import org.springframework.test.web.servlet.MockMvc;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
-public class RegistryOfficeStateMvcTests {
-
+public class RegistryOfficeAssignmentMvcTests {
     @Autowired private MockMvc mvc;
+    @Autowired RegistryOfficeAssignmentController controller;
 
     private static final int MAX_ID_LENGTH = 20;
     private static final int MAX_NAME_LENGTH = 50;
-    private static final String ROOT_PATH = "/situacao-cartorio";
+    private static final boolean DEFAULT_STATE_VALUE = true;
+    private static final String ROOT_PATH = "/atribuicao-cartorio";
 
     @Test
     public void testIfCreateReturns400WhenIdIsTooLong() throws Exception {
         JSONObject idTooLongRequest = new JSONObject();
         idTooLongRequest.put("id", "a".repeat(MAX_ID_LENGTH + 1));
         idTooLongRequest.put("nome", "nome");
+        idTooLongRequest.put("situacao", false);
         mvc.perform(
                         post(ROOT_PATH)
                                 .content(idTooLongRequest.toString())
@@ -41,6 +48,7 @@ public class RegistryOfficeStateMvcTests {
         JSONObject nameTooLongRequest = new JSONObject();
         nameTooLongRequest.put("id", "id");
         nameTooLongRequest.put("nome", "a".repeat(MAX_NAME_LENGTH + 1));
+        nameTooLongRequest.put("situacao", false);
         mvc.perform(
                         post(ROOT_PATH)
                                 .content(nameTooLongRequest.toString())
@@ -53,6 +61,7 @@ public class RegistryOfficeStateMvcTests {
         JSONObject emptyIdRequest = new JSONObject();
         emptyIdRequest.put("id", "");
         emptyIdRequest.put("nome", "nome2");
+        emptyIdRequest.put("situacao", false);
         mvc.perform(
                         post(ROOT_PATH)
                                 .content(emptyIdRequest.toString())
@@ -65,6 +74,7 @@ public class RegistryOfficeStateMvcTests {
         JSONObject emptyNameRequest = new JSONObject();
         emptyNameRequest.put("id", "id2");
         emptyNameRequest.put("nome", "");
+        emptyNameRequest.put("situacao", false);
         mvc.perform(
                         post(ROOT_PATH)
                                 .content(emptyNameRequest.toString())
@@ -73,45 +83,11 @@ public class RegistryOfficeStateMvcTests {
     }
 
     @Test
-    public void testIfCreateReturns400WhenIdIsRepeated() throws Exception {
-        String repeatId = "repeatId";
-        JSONObject repeatIdRequest = new JSONObject();
-        repeatIdRequest.put("id", repeatId);
-        repeatIdRequest.put("nome", "name1");
-        mvc.perform(
-                        post(ROOT_PATH)
-                                .content(repeatIdRequest.toString())
-                                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated());
-        JSONObject repeatIdRequest2 = new JSONObject();
-        repeatIdRequest2.put("id", repeatId);
-        repeatIdRequest2.put("nome", "name2");
-        mvc.perform(
-                        post(ROOT_PATH)
-                                .content(repeatIdRequest2.toString())
-                                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    public void testIfCreateReturns400WhenNameIsRepeated() throws Exception {
-        String repeatName = "repeat name";
-        JSONObject repeatNameRequest = new JSONObject();
-        repeatNameRequest.put("id", "idRepeatName1");
-        repeatNameRequest.put("nome", repeatName);
-        mvc.perform(
-                        post(ROOT_PATH)
-                                .content(repeatNameRequest.toString())
-                                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated());
-        JSONObject repeatNameRequest2 = new JSONObject();
-        repeatNameRequest2.put("id", "idRepeatName2");
-        repeatNameRequest2.put("nome", repeatName);
-        mvc.perform(
-                        post(ROOT_PATH)
-                                .content(repeatNameRequest2.toString())
-                                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest());
+    public void testStateDefaultValueWhenStateIsNotSent() throws Exception {
+        AssignmentCreationRequest request =
+                new AssignmentCreationRequest("sem situação", "sem situação", Optional.empty());
+        AssignmentCreationResponse response = controller.createRegistryOfficeState(request);
+        assertEquals(DEFAULT_STATE_VALUE, response.getData().getState());
     }
 
     @Test
@@ -119,6 +95,7 @@ public class RegistryOfficeStateMvcTests {
         JSONObject correctRequest = new JSONObject();
         correctRequest.put("id", "correto");
         correctRequest.put("nome", "correto");
+        correctRequest.put("situacao", false);
         mvc.perform(
                         post(ROOT_PATH)
                                 .content(correctRequest.toString())
