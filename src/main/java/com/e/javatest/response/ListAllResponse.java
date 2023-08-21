@@ -9,10 +9,14 @@ import lombok.Data;
 @Data
 @JsonPropertyOrder(alphabetic = true)
 public class ListAllResponse {
+    @JsonProperty("pagina")
+    private int page;
+
     @JsonProperty("dados")
     private List<IdAndNameOnly> searchResult;
 
-    public ListAllResponse(List<IdAndNameOnly> searchResult) {
+    public ListAllResponse(int page, List<IdAndNameOnly> searchResult) {
+        this.page = page;
         this.searchResult = searchResult;
     }
 }

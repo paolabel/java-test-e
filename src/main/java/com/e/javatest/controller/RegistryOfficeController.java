@@ -85,7 +85,8 @@ public class RegistryOfficeController {
             @RequestParam(name = "pagina", defaultValue = "1")
                     @Min(value = 1, message = MIN_PAGE_NUMBER_MESSAGE)
                     int page) {
-        return new ListAllResponse(registryOfficeService.listAllRegistryOfficeIdAndName(page));
+        return new ListAllResponse(
+                page, registryOfficeService.listAllRegistryOfficeIdAndName(page));
     }
 
     @Operation(summary = "Atualiza os dados de um cartório cadastrado")

@@ -62,6 +62,7 @@ public class RegistryOfficeAssignmentController {
                     @Min(value = 1, message = MIN_PAGE_NUMBER_MESSAGE)
                     int page) {
         return new ListAllResponse(
+                page,
                 registryOfficeAssignmentService.listAllRegistryOfficeAssignmentIdAndName(page));
     }
 

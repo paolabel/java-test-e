@@ -62,7 +62,7 @@ public class RegistryOfficeStateController {
                     @Min(value = 1, message = MIN_PAGE_NUMBER_MESSAGE)
                     int page) {
         return new ListAllResponse(
-                registryOfficeStateService.listAllRegistryOfficeStateIdAndName(page));
+                page, registryOfficeStateService.listAllRegistryOfficeStateIdAndName(page));
     }
 
     @Operation(summary = "Atualiza os dados de uma situação de cartório cadastrada")
