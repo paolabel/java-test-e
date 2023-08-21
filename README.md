@@ -15,11 +15,29 @@ mvn spring-boot:run
 
 Aplicação irá rodar em ```http://localhost:9564```
 
-### Execução individual dos testes
+### Execução  dos testes
 ---
 
+Executar todos os testes:
 ``` bash
 mvn test
+```
+
+Executar uma classe de teste:
+``` bash
+mvn test -Dtest={nome da classe}
+```
+
+Executar um teste específico:
+
+Executar uma classe de teste:
+``` bash
+mvn test -Dtest={nome da classe}#{nome do teste}
+```
+
+- Exemplo:
+``` bash
+mvn test -Dtest=JavaTestApplicationTests#contextLoads
 ```
 
 ### Referência da API
