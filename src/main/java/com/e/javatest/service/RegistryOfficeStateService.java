@@ -1,12 +1,12 @@
 package com.e.javatest.service;
 
 import com.e.javatest.exception.DuplicateEntryException;
-import com.e.javatest.exception.InvalidIdException;
 import com.e.javatest.model.RegistryOfficeState;
 import com.e.javatest.repository.IdAndNameOnly;
 import com.e.javatest.repository.RegistryOfficeStateRepository;
 import java.util.List;
 import java.util.Optional;
+import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -42,22 +42,28 @@ public class RegistryOfficeStateService {
     }
 
     public RegistryOfficeState updateRegistryOfficeState(String id, String newName)
-            throws InvalidIdException {
+            throws EntityNotFoundException, DuplicateEntryException {
         Optional<RegistryOfficeState> existingState = repository.findById(id);
         if (existingState.isEmpty()) {
-            throw new InvalidIdException(
-                    "Situação de cartório com id '" + id + "' não existe no banco de dados.");
+            throw new EntityNotFoundException(
+                    "Não existe situação de cartório cadastrada com id '" + id + "'.");
+        }
+        Optional<RegistryOfficeState> duplicateNameEntry = repository.findByName(newName);
+        if (duplicateNameEntry.isPresent()) {
+            String foundId = duplicateNameEntry.get().getId();
+            throw new DuplicateEntryException(
+                    "Nome já informado no registro com código " + foundId);
         }
         RegistryOfficeState updatedState = existingState.get();
         updatedState.setName(newName);
         return repository.save(updatedState);
     }
 
-    public String deleteRegistryOfficeState(String id) throws InvalidIdException {
+    public String deleteRegistryOfficeState(String id) throws EntityNotFoundException {
         Optional<RegistryOfficeState> existingState = repository.findById(id);
         if (existingState.isEmpty()) {
-            throw new InvalidIdException(
-                    "Situação de cartório com id '" + id + "' não existe no banco de dados.");
+            throw new EntityNotFoundException(
+                    "Não existe situação de cartório cadastrada com id '" + id + "'.");
         }
         repository.deleteById(id);
         return id;

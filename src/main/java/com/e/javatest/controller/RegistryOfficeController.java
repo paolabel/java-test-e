@@ -19,7 +19,6 @@ import com.e.javatest.service.RegistryOfficeService;
 import com.e.javatest.service.RegistryOfficeStateService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-
 import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
@@ -61,9 +60,9 @@ public class RegistryOfficeController {
                 registryOfficeStateService.getRegistryOfficeState(request.getStateId());
         if (state.isEmpty()) {
             throw new InvalidIdException(
-                    "Situação de cartório com id '"
+                    "Não existe situação de cartório cadastrada com id '"
                             + request.getStateId()
-                            + "' não existe no banco de dados.");
+                            + "'.");
         }
         List<RegistryOfficeAssignment> assignments =
                 registryOfficeAssignmentService.getAllRegistryOfficeAssignmentsInIdList(
@@ -93,7 +92,7 @@ public class RegistryOfficeController {
     @ResponseStatus(HttpStatus.OK)
     public RegistryOfficeUpdateResponse updateRegistryOffice(
             @PathVariable int id, @RequestBody @Valid RegistryOfficeUpdateRequest request)
-            throws InvalidIdException, NoFieldToUpdateException {
+            throws InvalidIdException, NoFieldToUpdateException, DuplicateEntryException {
 
         Optional<RegistryOfficeState> newState = Optional.empty();
         if (request.getStateId().isPresent()) {
@@ -101,9 +100,7 @@ public class RegistryOfficeController {
             newState = registryOfficeStateService.getRegistryOfficeState(newStateId);
             if (newState.isEmpty()) {
                 throw new InvalidIdException(
-                        "Situação de cartório com id '"
-                                + newStateId
-                                + "' não existe no banco de dados.");
+                        "Não existe situação de cartório cadastrada com id '" + newStateId + "'.");
             }
         }
         Optional<List<RegistryOfficeAssignment>> newAssignmentList = Optional.empty();

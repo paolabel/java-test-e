@@ -10,6 +10,7 @@ import com.e.javatest.repository.RegistryOfficeAssignmentRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -45,8 +46,8 @@ public class RegistryOfficeAssignmentService {
             throws EntryNotFoundException {
         Optional<RegistryOfficeAssignment> assignment = repository.findById(id);
         if (assignment.isEmpty()) {
-            throw new EntryNotFoundException(
-                    "Atribuição de cartório com id '" + id + "' não pôde ser encontrada.");
+            throw new EntityNotFoundException(
+                    "Não existe atribuição de cartório cadastrada com id '" + id + "'.");
         }
         return assignment.get();
     }
@@ -62,24 +63,31 @@ public class RegistryOfficeAssignmentService {
         foundIdDifference.removeAll(foundIdList);
         if (foundIdDifference.size() > 0) {
             throw new InvalidIdException(
-                    "Atribuições de cartório com id(s) "
+                    "Não existe(m) atribuição(ões) de cartório cadastrada(s) com id(s) '"
                             + foundIdDifference
-                            + " não existem no banco de dados.");
+                            + "'.");
         }
         return assignments;
     }
 
     public RegistryOfficeAssignment updateRegistryOfficeAssignment(
             String id, Optional<String> newName, Optional<Boolean> newState)
-            throws InvalidIdException, NoFieldToUpdateException {
+            throws EntityNotFoundException, NoFieldToUpdateException, DuplicateEntryException {
         Optional<RegistryOfficeAssignment> existingAssignment = repository.findById(id);
         if (existingAssignment.isEmpty()) {
-            throw new InvalidIdException(
-                    "Atribuição de cartório com id '" + id + "' não existe no banco de dados.");
+            throw new EntityNotFoundException(
+                    "Não existe atribuição de cartório cadastrada com id '" + id + "'.");
         }
         RegistryOfficeAssignment updatedAssignment = existingAssignment.get();
         boolean wasUpdated = false;
         if (newName.isPresent()) {
+            Optional<RegistryOfficeAssignment> duplicateNameEntry =
+                    repository.findByName(newName.get());
+            if (duplicateNameEntry.isPresent()) {
+                String foundId = duplicateNameEntry.get().getId();
+                throw new DuplicateEntryException(
+                        "Nome já informado no registro com código " + foundId);
+            }
             updatedAssignment.setName(newName.get());
             wasUpdated = true;
         }
@@ -98,8 +106,8 @@ public class RegistryOfficeAssignmentService {
     public String deleteRegistryOfficeAssignment(String id) throws InvalidIdException {
         Optional<RegistryOfficeAssignment> existingAssignment = repository.findById(id);
         if (existingAssignment.isEmpty()) {
-            throw new InvalidIdException(
-                    "Situação de cartório com id '" + id + "' não existe no banco de dados.");
+            throw new EntityNotFoundException(
+                    "Não existe atribuição de cartório cadastrada com id '" + id + "'.");
         }
         repository.deleteById(id);
         return id;

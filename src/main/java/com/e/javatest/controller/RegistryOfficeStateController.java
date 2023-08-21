@@ -16,8 +16,8 @@ import com.e.javatest.service.RegistryOfficeService;
 import com.e.javatest.service.RegistryOfficeStateService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-
 import java.util.Optional;
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,7 +69,7 @@ public class RegistryOfficeStateController {
     @ResponseStatus(HttpStatus.OK)
     public StateUpdateResponse updateRegistryOfficeState(
             @PathVariable String id, @RequestBody @Valid StateUpdateRequest request)
-            throws InvalidIdException {
+            throws EntityNotFoundException, DuplicateEntryException {
         RegistryOfficeState updatedState =
                 registryOfficeStateService.updateRegistryOfficeState(id, request.getName());
         return new StateUpdateResponse(updatedState);
@@ -96,7 +96,7 @@ public class RegistryOfficeStateController {
         Optional<RegistryOfficeState> state = registryOfficeStateService.getRegistryOfficeState(id);
         if (state.isEmpty()) {
             throw new EntryNotFoundException(
-                    "Situação de cartório com id '" + id + "' não pôde ser encontrada.");
+                    "Não existe situação de cartório cadastrada com id '" + id + "'.");
         }
         return new StateLookupResponse(state.get());
     }

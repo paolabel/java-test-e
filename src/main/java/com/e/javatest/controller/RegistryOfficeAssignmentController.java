@@ -17,7 +17,6 @@ import com.e.javatest.service.RegistryOfficeAssignmentService;
 import com.e.javatest.service.RegistryOfficeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +69,7 @@ public class RegistryOfficeAssignmentController {
     @ResponseStatus(HttpStatus.OK)
     public AssignmentUpdateResponse updateRegistryOfficeAssignment(
             @PathVariable String id, @RequestBody @Valid AssignmentUpdateRequest request)
-            throws InvalidIdException, NoFieldToUpdateException {
+            throws InvalidIdException, NoFieldToUpdateException, DuplicateEntryException {
         RegistryOfficeAssignment updatedAssignment =
                 registryOfficeAssignmentService.updateRegistryOfficeAssignment(
                         id, request.getName(), request.getState());

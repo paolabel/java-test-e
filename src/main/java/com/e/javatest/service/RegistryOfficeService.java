@@ -2,7 +2,6 @@ package com.e.javatest.service;
 
 import com.e.javatest.exception.DuplicateEntryException;
 import com.e.javatest.exception.EntryNotFoundException;
-import com.e.javatest.exception.InvalidIdException;
 import com.e.javatest.exception.NoFieldToUpdateException;
 import com.e.javatest.model.RegistryOffice;
 import com.e.javatest.model.RegistryOfficeAssignment;
@@ -11,6 +10,7 @@ import com.e.javatest.repository.IdAndNameOnly;
 import com.e.javatest.repository.RegistryOfficeRepository;
 import java.util.List;
 import java.util.Optional;
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -65,15 +65,21 @@ public class RegistryOfficeService {
             Optional<String> newObservation,
             Optional<RegistryOfficeState> newState,
             Optional<List<RegistryOfficeAssignment>> newAssignmentList)
-            throws InvalidIdException, NoFieldToUpdateException {
+            throws NoFieldToUpdateException, DuplicateEntryException {
         Optional<RegistryOffice> existingRegistryOffice = repository.findById(id);
         if (existingRegistryOffice.isEmpty()) {
-            throw new InvalidIdException(
-                    "Cartório com id '" + id + "' não existe no banco de dados.");
+            throw new EntityNotFoundException(
+                    "Não existe cartório cadastrado com id '" + id + "'.");
         }
         RegistryOffice updatedRegistryOffice = existingRegistryOffice.get();
         boolean wasUpdated = false;
         if (newName.isPresent()) {
+            Optional<RegistryOffice> duplicateNameEntry = repository.findByName(newName.get());
+            if (duplicateNameEntry.isPresent()) {
+                int foundId = duplicateNameEntry.get().getId();
+                throw new DuplicateEntryException(
+                        "Nome já informado no registro com código " + Integer.toString(foundId));
+            }
             updatedRegistryOffice.setName(newName.get());
             wasUpdated = true;
         }
@@ -97,11 +103,11 @@ public class RegistryOfficeService {
         return repository.save(updatedRegistryOffice);
     }
 
-    public int deleteRegistryOffice(int id) throws InvalidIdException {
+    public int deleteRegistryOffice(int id) throws EntityNotFoundException {
         Optional<RegistryOffice> existingRegistryOffice = repository.findById(id);
         if (existingRegistryOffice.isEmpty()) {
-            throw new InvalidIdException(
-                    "Cartório com id '" + id + "' não existe no banco de dados.");
+            throw new EntityNotFoundException(
+                    "Não existe cartório cadastrado com id '" + id + "'.");
         }
         repository.deleteById(id);
         return id;
@@ -110,8 +116,7 @@ public class RegistryOfficeService {
     public RegistryOffice getRegistryOffice(int id) throws EntryNotFoundException {
         Optional<RegistryOffice> registryOffice = repository.findById(id);
         if (registryOffice.isEmpty()) {
-            throw new EntryNotFoundException(
-                    "Cartório com id '" + id + "' não pôde ser encontrado.");
+            throw new EntryNotFoundException("Não existe cartório cadastrado com id '" + id + "'.");
         }
         return registryOffice.get();
     }
