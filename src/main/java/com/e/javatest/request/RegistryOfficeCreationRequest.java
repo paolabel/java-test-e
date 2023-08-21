@@ -12,7 +12,7 @@ import lombok.Data;
 @Data
 public class RegistryOfficeCreationRequest {
     @NotNull(message = "ID do registro não pode estar vazio")
-    @Min(1)
+    @Min(value = 1, message = "ID do registro deve ser positivo")
     private final int id;
 
     @NotEmpty(message = "Nome do registro não pode estar vazio")

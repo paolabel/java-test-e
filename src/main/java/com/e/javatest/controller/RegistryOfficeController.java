@@ -17,6 +17,9 @@ import com.e.javatest.response.RegistryOfficeUpdateResponse;
 import com.e.javatest.service.RegistryOfficeAssignmentService;
 import com.e.javatest.service.RegistryOfficeService;
 import com.e.javatest.service.RegistryOfficeStateService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
@@ -36,6 +39,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "Cartórios")
 @RestController
 @RequestMapping(path = "/cartorio", produces = MediaType.APPLICATION_JSON_VALUE)
 @Validated
@@ -46,9 +50,10 @@ public class RegistryOfficeController {
 
     private static final String MIN_PAGE_NUMBER_MESSAGE = "Número da página deve ser maior que 0";
 
+    @Operation(summary = "Cadastra um novo cartório")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public RegistryOfficeCreationResponse createRegistryOfficeWithIds(
+    public RegistryOfficeCreationResponse createRegistryOffice(
             @RequestBody @Valid RegistryOfficeCreationRequest request)
             throws DuplicateEntryException, InvalidIdException {
 
@@ -74,6 +79,7 @@ public class RegistryOfficeController {
         return new RegistryOfficeCreationResponse(newRegistryOffice);
     }
 
+    @Operation(summary = "Lista os IDs e nomes de todos os cartórios cadastrados")
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public ListAllResponse listAllRegistryOffices(
@@ -82,6 +88,7 @@ public class RegistryOfficeController {
         return new ListAllResponse(registryOfficeService.listAllRegistryOfficeIdAndName(page));
     }
 
+    @Operation(summary = "Atualiza os dados de um cartório cadastrado")
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public RegistryOfficeUpdateResponse updateRegistryOffice(
@@ -117,6 +124,7 @@ public class RegistryOfficeController {
         return new RegistryOfficeUpdateResponse(updatedRegistryOffice);
     }
 
+    @Operation(summary = "Deleta um cartório cadastrado")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public RegistryOfficeDeletionResponse deleteRegistryOffice(@PathVariable int id)
@@ -125,6 +133,7 @@ public class RegistryOfficeController {
         return new RegistryOfficeDeletionResponse(deletedId);
     }
 
+    @Operation(summary = "Consulta os dados de um cartório cadastrado")
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public RegistryOfficeLookupResponse getRegistryOffice(@PathVariable int id)

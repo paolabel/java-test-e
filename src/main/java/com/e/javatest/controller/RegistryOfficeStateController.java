@@ -14,6 +14,9 @@ import com.e.javatest.response.StateLookupResponse;
 import com.e.javatest.response.StateUpdateResponse;
 import com.e.javatest.service.RegistryOfficeService;
 import com.e.javatest.service.RegistryOfficeStateService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import java.util.Optional;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
@@ -31,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "Situações de cartório")
 @RestController
 @RequestMapping(path = "/situacao-cartorio", produces = MediaType.APPLICATION_JSON_VALUE)
 public class RegistryOfficeStateController {
@@ -39,6 +43,7 @@ public class RegistryOfficeStateController {
 
     private static final String MIN_PAGE_NUMBER_MESSAGE = "Número da página deve ser maior que 0";
 
+    @Operation(summary = "Cadastra uma nova situação de cartório")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public StateCreationResponse createRegistryOfficeState(
@@ -49,6 +54,7 @@ public class RegistryOfficeStateController {
         return new StateCreationResponse(newRegistryOfficeState);
     }
 
+    @Operation(summary = "Lista os IDs e nomes de todas as situações de cartório cadastradas")
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public ListAllResponse listAllRegistryOfficeStates(
@@ -58,6 +64,7 @@ public class RegistryOfficeStateController {
                 registryOfficeStateService.listAllRegistryOfficeStateIdAndName(page));
     }
 
+    @Operation(summary = "Atualiza os dados de uma situação de cartório cadastrada")
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public StateUpdateResponse updateRegistryOfficeState(
@@ -68,6 +75,7 @@ public class RegistryOfficeStateController {
         return new StateUpdateResponse(updatedState);
     }
 
+    @Operation(summary = "Deleta uma situação de cartório cadastrada")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public StateDeletionResponse deleteRegistryOfficeState(@PathVariable String id)
@@ -80,6 +88,7 @@ public class RegistryOfficeStateController {
         return new StateDeletionResponse(deletedId);
     }
 
+    @Operation(summary = "Consulta os dados de uma situação de cartório cadastrada")
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public StateLookupResponse getRegistryOfficeState(@PathVariable String id)

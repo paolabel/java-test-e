@@ -15,9 +15,11 @@ import com.e.javatest.response.AssignmentUpdateResponse;
 import com.e.javatest.response.ListAllResponse;
 import com.e.javatest.service.RegistryOfficeAssignmentService;
 import com.e.javatest.service.RegistryOfficeService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -32,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "Atribuições de cartório")
 @RestController
 @RequestMapping(path = "/atribuicao-cartorio", produces = MediaType.APPLICATION_JSON_VALUE)
 public class RegistryOfficeAssignmentController {
@@ -41,6 +44,7 @@ public class RegistryOfficeAssignmentController {
 
     private static final String MIN_PAGE_NUMBER_MESSAGE = "Número da página deve ser maior que 0";
 
+    @Operation(summary = "Cadastra uma nova atribuição de cartório")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public AssignmentCreationResponse createRegistryOfficeState(
@@ -51,6 +55,7 @@ public class RegistryOfficeAssignmentController {
         return new AssignmentCreationResponse(newRegistryOfficeAssignment);
     }
 
+    @Operation(summary = "Lista os IDs e nomes de todos as atribuições de cartório cadastradas")
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public ListAllResponse listAllRegistryOfficeStates(
@@ -60,6 +65,7 @@ public class RegistryOfficeAssignmentController {
                 registryOfficeAssignmentService.listAllRegistryOfficeAssignmentIdAndName(page));
     }
 
+    @Operation(summary = "Atualiza os dados de uma atribuição de cartório cadastrada")
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public AssignmentUpdateResponse updateRegistryOfficeAssignment(
@@ -71,6 +77,7 @@ public class RegistryOfficeAssignmentController {
         return new AssignmentUpdateResponse(updatedAssignment);
     }
 
+    @Operation(summary = "Deleta uma atribuição de cartório cadastrada")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public AssignmentDeletionResponse deleteRegistryOfficeAssignment(@PathVariable String id)
@@ -84,6 +91,7 @@ public class RegistryOfficeAssignmentController {
         return new AssignmentDeletionResponse(deletedId);
     }
 
+    @Operation(summary = "Consulta os dados de uma atribuição de cartório cadastrada")
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public AssignmentLookupResponse getRegistryOfficeAssignment(@PathVariable String id)

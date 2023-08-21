@@ -105,7 +105,7 @@ public class RegistryOfficeAssignmentService {
         return id;
     }
 
-        public List<IdAndNameOnly> listAllRegistryOfficeAssignmentIdAndName(int page) {
+    public List<IdAndNameOnly> listAllRegistryOfficeAssignmentIdAndName(int page) {
         Pageable pageable = PageRequest.of((page - 1), PAGE_SIZE, Sort.by(Order.asc("id")));
         return repository.findAllProjectedBy(pageable);
     }
