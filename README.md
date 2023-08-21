@@ -15,6 +15,13 @@ mvn spring-boot:run
 
 Aplicação irá rodar em ```http://localhost:9564```
 
+### Execução individual dos testes
+---
+
+``` bash
+mvn test
+```
+
 ### Referência da API
 ---
 
