@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @JsonPropertyOrder(alphabetic = true)
 public class RegistryOfficeState {
     @Id
-    @Column(length = 20)
+    @Column(name = "situacao_id", length = 20)
     private String id;
 
     @Column(name = "nome", nullable = false, length = 50)

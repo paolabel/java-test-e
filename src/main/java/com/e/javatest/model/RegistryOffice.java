@@ -25,7 +25,9 @@ import lombok.NoArgsConstructor;
 @Table(name = "cartorios")
 @JsonPropertyOrder(alphabetic = true)
 public class RegistryOffice {
-    @Id private int id;
+    @Id
+    @Column(name = "cartorio_id")
+    private int id;
 
     @Column(name = "nome", nullable = false, length = 150)
     @JsonProperty("nome")
@@ -37,7 +39,7 @@ public class RegistryOffice {
     private String observation;
 
     @OneToOne(optional = false)
-    @JoinColumn(name = "situacao", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "situacao", referencedColumnName = "situacao_id", nullable = false)
     @JsonProperty("situacao")
     private RegistryOfficeState state;
 
@@ -47,14 +49,14 @@ public class RegistryOffice {
             joinColumns = {
                 @JoinColumn(
                         name = "cartorio_id",
-                        referencedColumnName = "id",
+                        referencedColumnName = "cartorio_id",
                         table = "cartorios",
                         nullable = false)
             },
             inverseJoinColumns = {
                 @JoinColumn(
                         name = "atribuicao_id",
-                        referencedColumnName = "id",
+                        referencedColumnName = "atribuicao_id",
                         table = "atribuicoes_cartorio",
                         nullable = false)
             },
