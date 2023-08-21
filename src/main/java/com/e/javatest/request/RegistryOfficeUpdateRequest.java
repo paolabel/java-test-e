@@ -3,7 +3,6 @@ package com.e.javatest.request;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import java.util.Optional;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import lombok.Data;
 
@@ -37,9 +36,6 @@ public class RegistryOfficeUpdateRequest {
     final Optional<String> stateId;
 
     @JsonProperty("idsAtribuicoes")
-    final Optional<
-                    @Size(min = 1, message = MIN_ASSIGNMENT_LIST_SIZE_MESSAGE) List<
-                            @NotEmpty(message = "ID da atribuição do cartório não pode estar vazia")
-                            String>>
+    final Optional<@Size(min = 1, message = MIN_ASSIGNMENT_LIST_SIZE_MESSAGE) List<String>>
             assignmentIdList;
 }
