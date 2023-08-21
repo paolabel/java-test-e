@@ -3,7 +3,6 @@ package com.e.javatest.controller;
 import com.e.javatest.exception.DuplicateEntryException;
 import com.e.javatest.exception.EntryNotFoundException;
 import com.e.javatest.exception.EntryStillBeingUsedException;
-import com.e.javatest.exception.InvalidIdException;
 import com.e.javatest.exception.NoFieldToUpdateException;
 import com.e.javatest.model.RegistryOfficeAssignment;
 import com.e.javatest.request.AssignmentCreationRequest;
@@ -72,8 +71,7 @@ public class RegistryOfficeAssignmentController {
     @ResponseStatus(HttpStatus.OK)
     public AssignmentUpdateResponse updateRegistryOfficeAssignment(
             @PathVariable String id, @RequestBody @Valid AssignmentUpdateRequest request)
-            throws InvalidIdException, NoFieldToUpdateException, DuplicateEntryException,
-                    EntityNotFoundException {
+            throws NoFieldToUpdateException, DuplicateEntryException, EntityNotFoundException {
         RegistryOfficeAssignment updatedAssignment =
                 registryOfficeAssignmentService.updateRegistryOfficeAssignment(
                         id, request.getName(), request.getState());

@@ -3,7 +3,6 @@ package com.e.javatest.controller;
 import com.e.javatest.exception.DuplicateEntryException;
 import com.e.javatest.exception.EntryNotFoundException;
 import com.e.javatest.exception.EntryStillBeingUsedException;
-import com.e.javatest.exception.InvalidIdException;
 import com.e.javatest.model.RegistryOfficeState;
 import com.e.javatest.request.StateCreationRequest;
 import com.e.javatest.request.StateUpdateRequest;
@@ -80,7 +79,7 @@ public class RegistryOfficeStateController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public StateDeletionResponse deleteRegistryOfficeState(@PathVariable String id)
-            throws InvalidIdException, EntryStillBeingUsedException, EntityNotFoundException {
+            throws EntryStillBeingUsedException, EntityNotFoundException {
         boolean cantBeDeleted = registryOfficeService.checkifAnyRegistryOfficeContainsState(id);
         if (cantBeDeleted) {
             throw new EntryStillBeingUsedException("Registro utilizado em outro cadastro.");
