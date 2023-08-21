@@ -11,12 +11,12 @@ import lombok.Data;
 
 @Data
 public class RegistryOfficeCreationRequest {
-    @NotNull(message = "ID do registro não pode estar vazio")
-    @Min(value = 1, message = "ID do registro deve ser positivo")
+    @NotNull(message = "Campo 'id' não pode estar vazio")
+    @Min(value = 1, message = "Campo 'id' deve ser positivo")
     private final int id;
 
-    @NotEmpty(message = "Nome do registro não pode estar vazio")
-    @Size(max = 150, message = "Nome do registro deve ter até 50 caracteres")
+    @NotEmpty(message = "Campo 'nome' não pode estar vazio")
+    @Size(max = 150, message = "Campo 'nome' deve ter até 50 caracteres")
     @JsonProperty("nome")
     private final String name;
 
@@ -24,18 +24,15 @@ public class RegistryOfficeCreationRequest {
     private final Optional<
                     @Size(
                             max = 250,
-                            message =
-                                    "Novo valor para observação do registro deve ter até 250"
-                                            + " caracteres")
+                            message = "Campo 'observacao' deve ter até 250" + " caracteres")
                     String>
             observation;
 
-    @NotEmpty(message = "ID da situação do cartório não pode estar vazia")
+    @NotEmpty(message = "Campo 'idSituacao' não pode estar vazio")
     @JsonProperty("idSituacao")
     private final String stateId;
 
-    @NotEmpty(message = "Lista de IDs de atribuições do cartório não pode estar vazia")
-    @Size(min = 1)
+    @NotEmpty(message = "Campo 'idsAtribuicoes' do cartório não pode estar vazia")
     @JsonProperty("idsAtribuicoes")
     private final List<
                     @NotEmpty(message = "ID da atribuição do cartório não pode estar vazia") String>

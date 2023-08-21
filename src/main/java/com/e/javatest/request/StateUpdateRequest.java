@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class StateUpdateRequest {
 
-    @NotEmpty(message = "Novo valor para o nome do registro não pode estar vazio")
-    @Size(max = 50, message = "Novo valor para o nome do registro deve ter até 50 caracteres")
+    @NotEmpty(message = "Novo valor para o campo 'nome' não pode estar vazio")
+    @Size(max = 50, message = "Novo valor para o campo 'nome' deve ter até 50 caracteres")
     @JsonProperty("nome")
     private String name;
 }

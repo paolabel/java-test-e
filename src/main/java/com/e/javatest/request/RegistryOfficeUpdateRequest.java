@@ -11,15 +11,15 @@ import lombok.Data;
 public class RegistryOfficeUpdateRequest {
 
     private static final String MIN_NAME_SIZE_MESSAGE =
-            "Novo valor para o nome do registro não pode ser vazio";
+            "Novo valor para o campo 'nome' não pode ser vazio";
     private static final String MAX_NAME_SIZE_MESSAGE =
-            "Novo valor para o nome do registro deve ter até 150 caracteres";
+            "Novo valor para o campo 'nome' deve ter até 150 caracteres";
     private static final String MIN_OBS_SIZE_MESSAGE =
-            "Novo valor para a observação do registro não pode ser vazio";
+            "Novo valor para o campo 'observacao' não pode ser vazio";
     private static final String MAX_OBS_SIZE_MESSAGE =
-            "Novo valor para a observação do registro deve ter até 250 caracteres";
+            "Novo valor para o campo 'observacao' deve ter até 250 caracteres";
     private static final String MIN_ASSIGNMENT_LIST_SIZE_MESSAGE =
-            "Nova lista de IDs de atribuições do cartório não pode estar vazia";
+            "Nova valor para o campo 'idsAtribuicoes' não pode estar vazio";
 
     @JsonProperty("nome")
     final Optional<

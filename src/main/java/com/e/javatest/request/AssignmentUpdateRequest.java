@@ -9,9 +9,9 @@ import lombok.Data;
 public class AssignmentUpdateRequest {
 
     private static final String MIN_NAME_SIZE_MESSAGE =
-            "Novo valor para o nome do registro não pode ser vazio";
+            "Novo valor para o campo 'nome' não pode ser vazio";
     private static final String MAX_NAME_SIZE_MESSAGE =
-            "Novo valor para o nome do registro deve ter até 50 caracteres";
+            "Novo valor para o campo 'nome' deve ter até 50 caracteres";
 
     @JsonProperty("nome")
     private final Optional<
