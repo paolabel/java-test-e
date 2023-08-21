@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -49,6 +50,15 @@ public class RestExceptionHandler {
     protected ErrorResponse handleEntryNotFoundException(
             EntryNotFoundException ex, WebRequest request) {
         ErrorResponse errorMessage = new ErrorResponse(ex);
+        return errorMessage;
+    }
+
+    @ExceptionHandler(value = {HttpMessageNotReadableException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected ErrorResponse handleMethodArgumentNotValidException(
+            HttpMessageNotReadableException ex, WebRequest request) {
+        String message = "Erro ao ler requisição de entrada";
+        ErrorResponse errorMessage = new ErrorResponse(message);
         return errorMessage;
     }
 }

@@ -8,6 +8,10 @@ public class ErrorResponse {
     @JsonProperty("mensagem")
     private String message;
 
+    public ErrorResponse(String message) {
+        this.message = message;
+    }
+
     public ErrorResponse(Throwable exception) {
         this.message = exception.getMessage();
     }
